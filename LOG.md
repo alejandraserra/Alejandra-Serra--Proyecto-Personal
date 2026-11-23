@@ -60,3 +60,7 @@ Aprendido: [aumentar espacios y tamaños por sección aclara la lectura sin camb
 ## [23/11] · [Despliegue de niveles]
 Criterio: [abrir un solo nivel de “Descubre a tu manera” cada vez y mantener los otros cuadrados en su tamaño original. ✅]
 Aprendido: [las tarjetas de niveles deben funcionar como un acordeón exclusivo y alinearse al inicio para que el contenido abierto no estire las tarjetas vecinas.]
+
+## [23/11] · [Frase de portada]
+Criterio: [cambiar la pregunta principal por “¿POR QUÉ TENIENDO ACCESO A TANTA DIVERSIDAD MUSICAL, SEGUIMOS ESCUCHANDO LO QUE YA CONOCEMOS?”. ✅]
+Aprendido: [mantener literalmente la pregunta central elegida para UNLOOP en la portada.]
