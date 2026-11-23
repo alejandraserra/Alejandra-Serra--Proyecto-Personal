@@ -76,3 +76,7 @@ Aprendido: [mantener literalmente la pregunta central elegida para UNLOOP en la 
 ## [23/11] · [Código y documentos por scrolls]
 Criterio: [ordenar el código de la página única por secciones y actualizar SOUL.md, CONTEXT.md e INSTRUCTIONS.md sin cambiar su estructura base. ✅]
 Aprendido: [las secciones de scroll se identifican en el HTML; los estilos están en style.css y el JavaScript mantiene sus interacciones separadas por función. El registro conserva su formato y añade un mapa breve de secciones.]
+
+## [23/11] · [Espaciado de portada]
+Criterio: [presentar la pregunta en cuatro líneas exactas y separar visualmente el titular, el botón y la onda. ✅]
+Aprendido: [fijar cada línea y reservar espacio vertical evita que el contenido se amontone o se cruce en distintas pantallas.]
