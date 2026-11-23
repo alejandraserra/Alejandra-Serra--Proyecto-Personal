@@ -35,6 +35,7 @@ QUIERO: [Mantener UNLOOP como una sola página y ordenar el código y el registr
 SERÁ BUENO SI:
 - [Los scrolls de Inicio, Nosotros, Descubre, Mi espacio y Encuesta se identifican con claridad en el código.]
 - [Los cambios mantienen la estética negra, blanca y la paleta de la onda UNLOOP.]
+- [La pregunta de portada respeta sus cuatro líneas indicadas y no se cruza con el botón ni con la onda.]
 - [El LOG.md conserva su formato y recibe entradas breves según cambie cada sección.]
 - [Si no está clara una decisión que pueda cambiar el resultado, se consulta antes de asumirla.]
 
