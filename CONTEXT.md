@@ -30,6 +30,7 @@ La web invita a usar lo conocido como punto de partida para explorar música nue
 - 18/11/2026 · La web es una sola página con scrolls: Inicio, Nosotros, Descubre a tu manera, Mi espacio, Encuesta y pie.
 - 18/11/2026 · La encuesta propia ofrece Familiar Territory, Crossover y Out of Comfort como distintos grados de descubrimiento.
 - 23/11/2026 · La identidad visual mantiene fondo negro, letras blancas, el logo UNLOOP y la onda con acentos amarillo, naranja, rosa, lila y azul.
+- 23/11/2026 · La pregunta de portada mantiene cuatro líneas exactas, con espacio claro entre el titular, el único botón y la onda.
 - 23/11/2026 · La conexión con Spotify es opcional; sin conectarla la encuesta sigue disponible.
 - 23/11/2026 · Las tarjetas de Descubre se abren de una en una y enlazan con la encuesta.
 
