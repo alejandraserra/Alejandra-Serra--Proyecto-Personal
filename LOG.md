@@ -9,6 +9,14 @@ El registro de lo que has probado con la IA y de qué ha pasado.
 
 # LOG · [UNLOOP]
 
+## Secciones de la web
+- Scroll 01 · Inicio `#inicio` · portada y pregunta central.
+- Scroll 02 · Nosotros `#nosotros` · origen del proyecto y fotografías.
+- Scroll 03 · Descubre `#descubre` · Familiar Territory, Crossover y Out of Comfort.
+- Scroll 04 · Mi espacio `#account-panel` · loops, novedades y conciertos tras conectar Spotify.
+- Scroll 05 · Encuesta `#encuesta` · preferencias y propuestas de descubrimiento.
+- Pie · onda UNLOOP y vuelta al inicio.
+
 ## [18/11] · [Primera propuesta web]
 Criterio: [crear una primera versión navegable de UNLOOP con identidad visual, fotografía, frase principal, navegación y encuesta usable. ✅]
 Aprendido: [la encuesta puede recoger artistas, sonidos, moods y distancia de descubrimiento sin acceder a Spotify. El resumen es local y orientativo; todavía no hay un sistema de recomendaciones real. Los PDF de referencia no pudieron abrirse en la vista previa disponible, así que la propuesta se basó en CONTEXT.md. La fotografía y las tipografías se cargan desde servicios externos.]
@@ -64,3 +72,7 @@ Aprendido: [las tarjetas de niveles deben funcionar como un acordeón exclusivo 
 ## [23/11] · [Frase de portada]
 Criterio: [cambiar la pregunta principal por “¿POR QUÉ TENIENDO ACCESO A TANTA DIVERSIDAD MUSICAL, SEGUIMOS ESCUCHANDO LO QUE YA CONOCEMOS?”. ✅]
 Aprendido: [mantener literalmente la pregunta central elegida para UNLOOP en la portada.]
+
+## [23/11] · [Código y documentos por scrolls]
+Criterio: [ordenar el código de la página única por secciones y actualizar SOUL.md, CONTEXT.md e INSTRUCTIONS.md sin cambiar su estructura base. ✅]
+Aprendido: [las secciones de scroll se identifican en el HTML; los estilos están en style.css y el JavaScript mantiene sus interacciones separadas por función. El registro conserva su formato y añade un mapa breve de secciones.]

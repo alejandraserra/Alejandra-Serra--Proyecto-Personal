@@ -27,3 +27,18 @@ NO SIRVE SI:
 - [Se incluyen preguntas o funciones que no tienen una utilidad clara dentro del proyecto.]
 
 LO SABRÉ PORQUE: [Tendré una propuesta de encuesta con las preguntas, las posibles respuestas y una explicación de cómo se utilizará esa información para orientar las recomendaciones musicales de UNLOOP.]
+
+## [23/11] · [Orden y ajustes de la web]
+
+QUIERO: [Mantener UNLOOP como una sola página y ordenar el código y el registro por sus secciones de scroll, actualizando también SOUL.md y CONTEXT.md sin rehacer sus estructuras.]
+
+SERÁ BUENO SI:
+- [Los scrolls de Inicio, Nosotros, Descubre, Mi espacio y Encuesta se identifican con claridad en el código.]
+- [Los cambios mantienen la estética negra, blanca y la paleta de la onda UNLOOP.]
+- [El LOG.md conserva su formato y recibe entradas breves según cambie cada sección.]
+- [Si no está clara una decisión que pueda cambiar el resultado, se consulta antes de asumirla.]
+
+NO SIRVE SI:
+- [La web se convierte en varias páginas o se cambia radicalmente la estructura o estética sin que lo pida.]
+
+LO SABRÉ PORQUE: [La web sigue siendo una sola página, pero su código y los documentos del proyecto resultan fáciles de recorrer por secciones.]

@@ -1,3 +1,4 @@
+// Scroll 05 · Encuesta, preguntas y resultados
 const form = document.querySelector('#taste-form');
 const steps = [...document.querySelectorAll('.question')];
 const nextButton = document.querySelector('#next-button');
@@ -82,6 +83,7 @@ document.querySelector('#restart-button').addEventListener('click', () => {
 });
 form.addEventListener('submit', event => event.preventDefault());
 
+// Navegación global y scroll 03 · Despliegue exclusivo de niveles
 const menuButton = document.querySelector('#menu-button');
 const menuPanel = document.querySelector('#menu-panel');
 const pathCards = [...document.querySelectorAll('.path-card')];
@@ -96,6 +98,7 @@ menuPanel.querySelectorAll('a').forEach(link => link.addEventListener('click', (
   menuPanel.classList.remove('open'); menuButton.setAttribute('aria-expanded', 'false');
 }));
 
+// Acceso y entrada al espacio personal
 const loginDialog = document.querySelector('#login-dialog');
 const loginMessage = document.querySelector('#login-message');
 document.querySelector('#sign-in-link').addEventListener('click', event => {

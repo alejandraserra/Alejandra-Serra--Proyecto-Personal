@@ -22,6 +22,7 @@
     loginMessage.textContent = message;
   }
 
+  // Acceso opcional con Spotify (OAuth PKCE).
   function randomString(length) {
     const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const bytes = crypto.getRandomValues(new Uint8Array(length));
@@ -150,6 +151,7 @@
     history.replaceState({}, document.title, `${location.pathname}${location.hash}`);
   }
 
+  // Scroll 04 · Mi espacio, loops guardados y novedades.
   function addItem(container, title, subtitle, url, label = 'ABRIR EN SPOTIFY') {
     const item = document.createElement('article');
     item.className = 'account-item';
@@ -246,6 +248,7 @@
     unique.forEach(album => addItem(container, album.name, `${album.artists.map(a => a.name).join(', ')} · ${album.release_date}`, album.external_urls?.spotify, 'ESCUCHAR'));
   }
 
+  // Encuesta · Guardar y crear loops en playlists privadas.
   async function findSpotifyTrack(pick) {
     const q = `track:"${pick.song}" artist:"${pick.artist}"`;
     const params = new URLSearchParams({ q, type: 'track', limit: '1' });
@@ -337,6 +340,7 @@
     }
   }
 
+  // Mi espacio · Buscar conciertos por ciudad.
   async function searchConcerts(city) {
     const container = document.querySelector('#concert-results');
     const apiKey = config.ticketmasterApiKey?.trim();

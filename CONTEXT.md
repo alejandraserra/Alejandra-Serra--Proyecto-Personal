@@ -2,48 +2,46 @@
 CONTEXT.md · ¿De qué va mi proyecto y qué está decidido?
 Es el mapa de tu proyecto, no su documentación: lo mínimo para que alguien que
 no te conoce (persona o IA) entienda qué haces, con qué y qué está decidido.
-Si algo es largo (la memoria, los datos), aquí solo dices que existe y dónde está.
-Se actualiza cada vez que decides algo. Va en los archivos del proyecto de ChatGPT.
 -->
 
-# CONTEXT · [Título de tu proyecto]
-Última actualización: [dd/mm/aaaa]
+# CONTEXT · UNLOOP
+Última actualización: 23/11/2026
 
 ## La pregunta
-¿Por qué, teniendo acceso a tanta diversidad musical, seguimos escuchando lo que ya conocemos?
+¿POR QUÉ TENIENDO ACCESO A TANTA DIVERSIDAD MUSICAL, SEGUIMOS ESCUCHANDO LO QUE YA CONOCEMOS?
 
 ## Los datos
-- Fuente 1: historial personal de Spotify, de 2018 a 2026, utilizado para la investigación inicial. Contiene 1.873 horas de escucha, 53.385 reproducciones, 7.466 canciones, 2.249 artistas y 5.078 álbumes.
-- [Fuente 2]: encuesta integrada en la web de UNLOOP para recoger los gustos y preferencias musicales de los usuarios. Todavía no está diseñada ni tiene registros.
-- Falta: definir las preguntas de la encuesta, cómo se recogerán las respuestas y cómo se utilizarán para recomendar nuevos artistas.
-- No tengo: acceso al historial personal de Spotify de los futuros usuarios ni información sobre sus gustos que no hayan proporcionado. La IA no debe inventar sus preferencias ni recomendaciones.
+- Fuente 1: mi historial personal de Spotify (2018–2026): 1.873 horas de escucha, 53.385 reproducciones, 7.466 canciones, 2.249 artistas y 5.078 álbumes.
+- Fuente 2: encuesta de cinco preguntas integrada en la web, que recoge artistas, estilos, idiomas, moods y distancia de descubrimiento. No hay un registro centralizado de respuestas.
+- Spotify es opcional. Cada persona debe autorizar la conexión antes de consultar sus artistas escuchados o guardar loops como playlists privadas.
+- La conexión de Spotify y la búsqueda de conciertos necesitan sus claves en `config.js` para activarse.
 
-
-## El tonoCercano, curioso y dinámico, sin juzgar los gustos musicales.[Dos o tres palabras: «íntimo, sin reproches»].
-[Una imagen: un mapa musical que parte de lo conocido y abre caminos hacia nuevos descubrimientos.
+## El tono
+Cercano, curioso y dinámico, sin juzgar los gustos musicales.
+La web invita a usar lo conocido como punto de partida para explorar música nueva.
 
 ## Referentes
-- [Referente]: Last.fm: tomo el seguimiento de las escuchas y la evolución de los hábitos, pero no quiero una web centrada únicamente en estadísticas.Explore My Music Listening History: tomo la representación visual de los datos mediante líneas, barras y colores. Archivo musical y memoria: tomo la navegación por periodos y la combinación de datos e imágenes. Spotify Wrapped: tomo la narrativa progresiva y la jerarquía visual, pero no quiero hacer un resumen anual.
-- [Contrarreferente]: plataformas centradas exclusivamente en rankings y estadísticas, sin una experiencia de exploración o descubrimiento.
+- Last.fm: seguimiento de las escuchas y evolución de hábitos, sin centrar la web solo en estadísticas.
+- Explore My Music Listening History y Spotify Wrapped: representación visual y narrativa progresiva, sin convertir UNLOOP en un resumen anual.
+- Contrarreferente: rankings sin contexto ni experiencia de exploración.
 
 ## Decisiones
-- 18/11/2026· UNLOOP: nombre provisional del proyecto. Representa la idea de romper el ciclo de escuchar siempre lo mismo.
-
-18/11/2026· Encuesta propia: los datos de los usuarios se recogerán mediante una encuesta dentro de la web, evitando que tengan que descargar su historial de Spotify.
-
-18/11/2026· Tres niveles de descubrimiento: Familiar Territory, Crossover y Out of Comfort, para ofrecer distintos grados de distancia respecto a los gustos habituales.
-
-18/11/2026· Mapa musical: explorar una representación visual donde los artistas conocidos ocupen una zona central y las nuevas propuestas aparezcan conectadas a ellos.
-
+- 18/11/2026 · UNLOOP representa la idea de romper el ciclo de escuchar siempre lo mismo.
+- 18/11/2026 · La web es una sola página con scrolls: Inicio, Nosotros, Descubre a tu manera, Mi espacio, Encuesta y pie.
+- 18/11/2026 · La encuesta propia ofrece Familiar Territory, Crossover y Out of Comfort como distintos grados de descubrimiento.
+- 23/11/2026 · La identidad visual mantiene fondo negro, letras blancas, el logo UNLOOP y la onda con acentos amarillo, naranja, rosa, lila y azul.
+- 23/11/2026 · La conexión con Spotify es opcional; sin conectarla la encuesta sigue disponible.
+- 23/11/2026 · Las tarjetas de Descubre se abren de una en una y enlazan con la encuesta.
 
 ## Hipótesis (sin comprobar)
-- Aunque tenemos acceso a muchísima variedad musical, tendemos a repetir los artistas y canciones que ya conocemos. Partir de los gustos personales puede facilitar el descubrimiento de nuevos artistas. Ofrecer diferentes niveles de descubrimiento puede animar a las personas a salir progresivamente de su zona de confort musical. Una experiencia visual e interactiva puede hacer que descubrir música nueva resulte más atractivo.
+- Partir de los gustos personales y ofrecer distintos niveles de descubrimiento puede animar a encontrar música nueva.
+- Una experiencia visual e interactiva puede hacer más atractivo ese descubrimiento.
 
 ## Descartado
-- 18/11/2026 · Conectar directamente con las cuentas de Spotify: se descarta como método de recogida de datos para los usuarios porque descargar o conectar el historial puede resultar demasiado complicado.
-18/11/2026 · Crear un Spotify Wrapped personal: no quiero limitar el proyecto a mostrar estadísticas y rankings, sino utilizar la información para descubrir música nueva.
+- 23/11/2026 · Acceso automático al historial de Spotify: solo se consultan datos si cada persona conecta su cuenta y concede permisos.
+- 18/11/2026 · Crear un Spotify Wrapped personal: UNLOOP usa la información para descubrir música, no solo para mostrar rankings.
 
 ## Estado
-Hecho: investigación inicial con mis datos de Spotify, pregunta de investigación, análisis de referentes, definición de las 4Q, público objetivo, narrativa, valores, tono y concepto inicial de UNLOOP.
+Hecho: análisis inicial de mi historial y referentes; definición de UNLOOP; web de una página con secciones de scroll, encuesta y rutas de descubrimiento; base de conexión opcional con Spotify.
 
-Siguiente: diseñar la encuesta, decidir qué información recoger, definir cómo se generarán las recomendaciones y desarrollar la estructura visual e interactiva de la web.
+Siguiente: completar la configuración de Spotify y Ticketmaster, revisar el flujo publicado y seguir afinando la recomendación con respuestas reales.
