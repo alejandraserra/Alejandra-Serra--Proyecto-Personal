@@ -9,6 +9,54 @@ El registro de lo que has probado con la IA y de qué ha pasado.
 
 # LOG · [UNLOOP]
 
+## [18/11] · [Primera propuesta web]
+Criterio: [crear una primera versión navegable de UNLOOP con identidad visual, fotografía, frase principal, navegación y encuesta usable. ✅]
+Aprendido: [la encuesta puede recoger artistas, sonidos, moods y distancia de descubrimiento sin acceder a Spotify. El resumen es local y orientativo; todavía no hay un sistema de recomendaciones real. Los PDF de referencia no pudieron abrirse en la vista previa disponible, así que la propuesta se basó en CONTEXT.md. La fotografía y las tipografías se cargan desde servicios externos.]
+
+## [18/11] · [Ajuste visual según las referencias]
+Criterio: [rehacer la portada siguiendo las capturas: fondo negro, cabecera carbón, tipografía gruesa blanca, logo multicolor, onda de sonido y acentos azul, naranja, verde, amarillo y turquesa. Añadir recorrido hacia la encuesta dentro de la página. ✅]
+Aprendido: [la portada sigue la composición de las capturas y la encuesta muestra una selección musical de ejemplo a partir de los géneros elegidos. No hay conexión con Spotify ni catálogo conectado; la selección se identifica como una primera muestra, no como un análisis del historial personal.]
+
+## [23/11] · [Logo y navegación]
+Criterio: [usar el logo proporcionado, explicar el origen del proyecto en “Nosotros”, renombrar la sección de exploración y dejar el menú solo tras el botón de tres líneas. Cambiar el enlace del encabezado a “Inicia sesión”. ✅]
+Aprendido: [el logo de la captura se guardó en assets/unloop-logo.png. El menú inferior desapareció; la navegación se abre desde el icono hamburguesa. “Inicia sesión” abre una maqueta visual y avisa que el acceso todavía no está conectado.]
+
+## [23/11] · [Iconos, logo transparente y fotos]
+Criterio: [usar los iconos de Google, Apple e Instagram mostrados en la referencia; quitar el fondo del logo y cambiar las fotos de “Nosotros” manteniendo el tratamiento visual. ✅]
+Aprendido: [el logo ahora tiene transparencia real; los iconos son SVG vectoriales; las tres fotos del collage muestran escenas de escucha, vinilos y exploración musical. Se mantuvo la composición y el tono de color existentes.]
+
+## [23/11] · [Un único botón principal]
+Criterio: [unir “UNLOOP — Break the listening loop” y “Encuentra tu próximo loop” en una sola caja azul que lleve a la encuesta. ✅]
+Aprendido: [el mensaje de marca y la llamada a la acción forman ahora un único enlace visual hacia la encuesta; se eliminó la segunda caja azul.]
+
+## [23/11] · [Paleta y encuesta]
+Criterio: [recuperar las imágenes anteriores de “Nosotros”, unificar los acentos con la paleta de la onda y probar un formato distinto para la encuesta. ✅]
+Aprendido: [se recuperó el collage anterior; los acentos ahora usan amarillo, naranja, rosa, lila y azul. La encuesta mantiene sus preguntas y pasos, pero pasa de una tarjeta compacta a una composición amplia con opciones en mosaico.]
+
+## [23/11] · [Tipografía Crossover y repeat]
+Criterio: [poner en blanco el texto de la tarjeta Crossover y dar a “repeat” un degradado rainbow como la onda principal. ✅]
+Aprendido: [Crossover conserva su fondo amarillo con texto blanco sombreado; “repeat” usa el degradado amarillo, naranja, rosa, lila y azul de UNLOOP.]
+
+## [23/11] · [Interacción de tarjetas y encuesta]
+Criterio: [usar el logo real en el pie, hacer más grandes y desplegables los niveles de descubrimiento, animar y enlazar las fotos de Nosotros, retirar adornos y dar más juego visual a la encuesta. ✅]
+Aprendido: [las tarjetas explican su nivel al abrirse; Crossover pasa a lila dentro de la paleta y mantiene texto blanco; las fotos se mueven, crecen al pasar el cursor y llevan a Descubre; la encuesta suma idioma como quinta pregunta y una onda rainbow.]
+
+## [23/11] · [Cuenta y conexión musical]
+Criterio: [preparar el acceso con Spotify, guardar loops como playlists privadas, crear nuevos loops a partir de artistas más escuchados, mostrar lanzamientos recientes y permitir buscar conciertos por ciudad.]
+Aprendido: [se añadió conexión OAuth PKCE en el navegador, almacenamiento de loops en playlists privadas de Spotify, lectura de artistas y lanzamientos, creación de loops por estilos, y búsqueda de conciertos con Ticketmaster. Falta añadir el Client ID de Spotify y la API key de Ticketmaster en config.js para activar las conexiones; Ticketmaster requiere además una clave y permiso de acceso.] 
+
 ## [04/11] · [Preparar las instrucciones para diseñar la encuesta]
 Criterio: [definir una petición clara para crear una encuesta que recoja los gustos musicales de los usuarios, sin depender de Spotify y teniendo en cuenta los tres niveles de descubrimiento. 1 vuelta. ✅. [✅ / ❌]
 Aprendido: [antes de diseñar la encuesta, hay que definir qué información necesitamos recoger y cómo se utilizará para orientar los descubrimientos. No debemos dar por hecho que tenemos acceso al historial musical de los usuarios.].
+
+## [23/11] · [Ajustes de Descubre y encuesta]
+Criterio: [hacer más visibles los tres niveles en escritorio, sustituir la tarjeta amarilla por un color de la onda, mantener solo la estrella de Out of Comfort, enlazar y animar las fotos, desplegar más información al abrir cada nivel y dar más ritmo visual a la encuesta. ✅]
+Aprendido: [las tarjetas crecen en pantallas grandes y muestran su explicación al abrirlas; las fotos flotan y enlazan con Descubre; la encuesta suma una onda animada en la paleta UNLOOP y se retiran los adornos gráficos que no encajan.]
+
+## [23/11] · [Espaciado y ondas]
+Criterio: [dar más aire a la página, separar la onda principal del botón, cambiar la foto de “Lo que ya conoces”, quitar la onda decorativa de la encuesta y repetir en el pie la onda animada de portada. ✅]
+Aprendido: [aumentar espacios y tamaños por sección aclara la lectura sin cambiar la estructura; compartir la onda de portada en el pie mantiene la identidad visual más coherente que añadir otro dibujo.]
+
+## [23/11] · [Despliegue de niveles]
+Criterio: [abrir un solo nivel de “Descubre a tu manera” cada vez y mantener los otros cuadrados en su tamaño original. ✅]
+Aprendido: [las tarjetas de niveles deben funcionar como un acordeón exclusivo y alinearse al inicio para que el contenido abierto no estire las tarjetas vecinas.]
