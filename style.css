@@ -54,3 +54,17 @@
 /* Ajustes finales por tamaño de pantalla */
     @media(max-width:700px){html{scroll-padding-top:68px}.site-header{height:58px;padding-inline:15px}.menu-panel{top:57px}.hero{height:670px;min-height:640px;padding:65px 5vw 22px}.hero-cta{margin-top:43px;min-height:94px}.wave-art{height:24%;bottom:5%}.intro-section,.paths-section,.survey-section{padding-bottom:76px}.section-bar{height:61px;margin-bottom:31px}.intro-grid{gap:18px}.intro-grid h3,.survey-copy h3{font-size:clamp(31px,9vw,40px);margin-bottom:16px}.intro-grid p,.survey-copy>p{font-size:12px;line-height:1.75;margin-bottom:14px}.image-collage{height:220px;gap:8px}.image-tile figcaption{font-size:6px;left:6px;bottom:8px}.paths-section .section-lead{font-size:11px;margin-bottom:25px}.path-grid{gap:11px}.path-card{border-radius:20px}.path-card[open]{min-height:0}.path-detail{margin-top:15px;padding-top:13px}.survey-copy{margin-bottom:28px}.survey-copy>p{font-size:12px}.survey-card{padding-top:24px}.question{margin-top:30px;min-height:280px}.question>p{font-size:12px;margin:12px 0 21px}.choice-grid{gap:8px}.choice-grid span{padding:14px 11px;min-height:48px;font-size:11px}.distance-list{gap:8px}.distance-list label{min-height:76px;padding:12px}.form-controls{margin-top:14px;padding-top:16px}.footer-wave{height:135px;margin-top:10px}footer{min-height:78px}}
     @media(prefers-reduced-motion:reduce){.footer-wave-lines{animation:none}}
+
+/* Scroll 01 · Inicio: cuatro líneas fijas y separación entre título, CTA y onda. */
+.hero{height:calc(100svh - 76px);min-height:760px;max-height:900px;padding:86px 5vw 25px}
+.hero-overline,.hero h1{position:relative;z-index:2}
+.hero h1{width:100%;max-width:1100px;font-size:clamp(24px,3.8vw,58px);line-height:.98;letter-spacing:-2px}
+.hero h1 span{display:block;white-space:nowrap}
+.hero-cta{margin-top:78px;flex:0 0 auto;z-index:3}
+.wave-art{height:22%;bottom:2%;z-index:0}
+@media(max-width:700px){
+  .hero{height:670px;min-height:640px;max-height:760px;padding:65px 5vw 22px}
+  .hero h1{max-width:100%;font-size:clamp(16px,5.4vw,36px);line-height:.98;letter-spacing:-.8px}
+  .hero-cta{width:88%;margin-top:38px;min-height:94px}
+  .wave-art{height:22%;bottom:3%}
+}
