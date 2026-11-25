@@ -43,3 +43,20 @@ NO SIRVE SI:
 - [La web se convierte en varias páginas o se cambia radicalmente la estructura o estética sin que lo pida.]
 
 LO SABRÉ PORQUE: [La web sigue siendo una sola página, pero su código y los documentos del proyecto resultan fáciles de recorrer por secciones.]
+
+## [25/11] · [Acceso, catálogo y loops reales]
+
+QUIERO: [Que correo, Google, Apple e Instagram puedan iniciar sesión en la demo; que la encuesta ofrezca canciones reales y permita guardarlas en Spotify.]
+
+SERÁ BUENO SI:
+- [La encuesta busca canciones en un catálogo y muestra título, artista y enlace real.]
+- [Con Spotify conectado, se pueden crear playlists o añadir las canciones a una playlist elegida.]
+- [Los nuevos loops parten de las preferencias escritas en la encuesta, sin analizar el historial de escucha de Spotify.]
+- [Correo y redes usan autenticación real; los métodos quedan pendientes de configurar en Supabase y sus proveedores.]
+- [LOG.md registra brevemente los cambios y la prueba requerida para cada integración.]
+
+NO SIRVE SI:
+- [La web indica que un acceso o guardado se completó cuando faltan credenciales o la API lo rechazó.]
+- [Se exponen secretos de proveedores en los archivos públicos.]
+
+LO SABRÉ PORQUE: [Al configurar las claves, podré iniciar sesión, completar la encuesta, guardar canciones en Spotify y volver a ver mis loops en Mi espacio.]
