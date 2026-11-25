@@ -17,7 +17,7 @@
   spotifyButton.type = 'button';
   spotifyButton.id = 'spotify-connect';
   spotifyButton.className = 'spotify-connect';
-  spotifyButton.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#1ed760"/><path d="M5.1 8.6c4.3-1.3 9.9-.9 13.7 1.4.5.3.7.9.4 1.4-.3.5-.9.7-1.4.4-3.3-2-8.3-2.4-12.1-1.2-.6.2-1.2-.1-1.4-.7-.2-.5.1-1.1.8-1.3Zm.2 3.7c3.8-1.1 8-.7 11.1 1.1.5.3.7.9.4 1.4-.3.5-.9.6-1.4.3-2.7-1.6-6.4-1.9-9.6-1-.6.2-1.2-.1-1.4-.7-.1-.5.2-1 .9-1.2Zm.4 3.6c3.1-.9 6.3-.5 8.8.9.5.3.6.9.4 1.3-.3.5-.9.6-1.3.3-2.1-1.2-4.8-1.5-7.4-.8-.5.1-1.1-.2-1.2-.7-.2-.4.1-.9.7-1Z" fill="#07120a"/></svg><span>CONECTAR CON SPOTIFY</span>';
+  spotifyButton.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#1ed760"/><path d="M5.35 8.65c4.15-1.2 9.55-.9 13.15 1.25M6.05 12.05c3.45-1 7.85-.7 10.85 1.05M6.75 15.25c2.65-.7 5.8-.45 8.15.8" fill="none" stroke="#07120a" stroke-width="1.45" stroke-linecap="round"/></svg><span>CONECTAR CON SPOTIFY</span>';
   document.querySelector('#login-title').after(spotifyButton);
 
   function announce(message) {
