@@ -144,3 +144,19 @@ NO SIRVE SI:
 - [El selector deja partes de la interfaz sin traducir o la página pierde la identidad UNLOOP.]
 
 LO SABRÉ PORQUE: [Puedo completar cada encuesta, reproducir las vistas previas disponibles y cambiar ES/EN; el guardado pide conectar Spotify si todavía no está autorizado.]
+
+## [25/11] · [Estudio visual y recorrido ampliado]
+
+QUIERO: [Ampliar el proyecto con nuevas secciones útiles, cartas visuales apiladas para elegir una ruta musical y resultados presentados como la referencia de portadas en arco.]
+
+SERÁ BUENO SI:
+- [La canción activa destaca al centro y sus controles de escucha aparecen integrados justo debajo de las portadas.]
+- [Las cartas del Estudio UNLOOP cambian la ruta seleccionada y abren su encuesta específica.]
+- [La sección Cómo funciona explica en tres pasos la experiencia real de UNLOOP.]
+- [Los nuevos bloques respetan fondo, tipografía, paleta y espaciado ya acordados; menú y fichas siguen el nuevo orden.]
+
+NO SIRVE SI:
+- [Las cartas son decorativas o llevan a rutas equivocadas.]
+- [El resultado musical pierde la canción, artista, enlace o controles que ya ofrecía.]
+
+LO SABRÉ PORQUE: [Al completar una encuesta puedo recorrer las portadas, cambiar la canción central, ver los controles debajo y probar cualquiera de las rutas del Estudio.]
