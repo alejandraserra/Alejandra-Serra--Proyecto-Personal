@@ -10,6 +10,72 @@ const dots = [...document.querySelectorAll('.step-dots i')];
 const error = document.querySelector('#form-error');
 const results = document.querySelector('#results');
 let step = 0;
+let pageLanguage = 'es';
+try { pageLanguage = localStorage.getItem('unloop_language') || 'es'; } catch { /* El idioma también funciona sin almacenamiento local. */ }
+const languagePairs = {
+  'UNLOOP PRESENTA · TU MAPA MUSICAL':'UNLOOP PRESENTS · YOUR MUSIC MAP',
+  '¿POR QUÉ TENIENDO ACCESO A':'WITH SO MUCH MUSIC AT OUR FINGERTIPS,',
+  'TANTA DIVERSIDAD MUSICAL,':'WHY DO WE KEEP',
+  'SEGUIMOS ESCUCHANDO LO QUE':'LISTENING TO THE SAME',
+  'YA CONOCEMOS?':'THINGS WE ALREADY KNOW?',
+  'ENCUENTRA TU PRÓXIMO LOOP':'FIND YOUR NEXT LOOP',
+  'ESCUCHA · EXPLORA · REPITE DIFERENTE':'LISTEN · EXPLORE · REPEAT DIFFERENTLY',
+  'INICIA SESIÓN':'SIGN IN','MI CUENTA':'MY ACCOUNT','Abrir menú':'Open menu','Cerrar menú':'Close menu',
+  'Inicio':'Home','Encuesta':'Survey','Descubre a tu manera':'Discover your way','Nosotros':'About us',
+  'EMPIEZA POR TU OÍDO.':'START WITH YOUR EARS.','Tu próximo descubrimiento empieza aquí.':'Your next discovery starts here.',
+  'Cuéntanos qué escuchas y qué te apetece probar. Te proponemos un loop a tu medida.':'Tell us what you listen to and what you feel like trying. We’ll find a loop for you.',
+  'Tú eliges el punto de partida.':'You choose where to start.','Conecta Spotify solo si quieres guardar tus loops en playlists privadas.':'Connect Spotify only if you want to save your loops to private playlists.',
+  '5 PREGUNTAS · 2 MINUTOS':'5 QUESTIONS · 2 MINUTES','¿Qué artistas tienes':'Which artists are on your','Escribe hasta tres de tus favoritos.':'Add up to three favorites.',
+  'ARTISTAS':'ARTISTS','Sepáralos con comas.':'Separate them with commas.','¿Qué sonidos':'What sounds','te':'are calling to you','Elige todos los que te apetezcan.':'Choose all that appeal to you.',
+  '¿En qué idioma':'Which language','te apetece':'would you like to','explorar?':'explore?','Marca todos los que te gustaría escuchar.':'Choose all the languages you’d like to hear.',
+  'Español':'Spanish','Inglés':'English','Otros idiomas':'Other languages','Me da igual ✳':'Any language ✳',
+  '¿Qué buscas':'What are you looking for','cuando':'when you','escuchas?':'listen?','Puedes elegir más de uno.':'Choose more than one.',
+  'Desconectar':'Unwind','Subidón':'Energy','Acompañamiento':'Company','Inspiración':'Inspiration','Moverme':'Movement','Un poco de todo':'A bit of everything',
+  '¿Hasta dónde':'How far','quieres':'do you want to','llegar?':'go?','Marca la distancia que te apetece hoy.':'Choose how far you feel like exploring today.',
+  'Algo familiar':'Something familiar','Quiero sentirme en casa.':'Keep me in my comfort zone.','Un paso al lado':'One step aside','Sorpréndeme un poco.':'Surprise me a little.','Sin mapa':'No map','Hoy me atrevo con todo.':'I’m up for anything today.',
+  '← ATRÁS':'← BACK','SIGUIENTE':'NEXT','VER DESCUBRIMIENTOS':'SHOW MY DISCOVERIES','BUSCANDO TU PRÓXIMO LOOP…':'FINDING YOUR NEXT LOOP…',
+  'Sal de repeat.':'Break the loop.','Entra en play.':'Hit play.','TU PRÓXIMO LOOP':'YOUR NEXT LOOP','SELECCIÓN PERSONALIZADA':'MADE FOR YOU','SEGÚN TUS RESPUESTAS':'BASED ON YOUR ANSWERS',
+  'Empieza por aquí':'Start here','CANCIONES PARA TI':'SONGS FOR YOU','Escucha un álbum':'Explore an album','ÁLBUMES':'ALBUMS','Conoce otra voz':'Meet a new voice','ARTISTAS':'ARTISTS',
+  'Las recomendaciones salen de tus artistas, estilos, idioma, mood y distancia de descubrimiento. Abre cada tarjeta para escucharla en Apple Music; si conectas Spotify, puedes guardar las canciones en una playlist.':'Recommendations use your favorite artists, genres, language, mood and discovery distance. Open a card to listen on Apple Music; connect Spotify to save songs to a playlist.',
+  'DESTINO EN SPOTIFY':'SPOTIFY PLAYLIST','Crear una playlist privada nueva':'Create a new private playlist','AÑADIR A MI PLAYLIST DE SPOTIFY':'ADD TO MY SPOTIFY PLAYLIST','EMPEZAR DE NUEVO ↺':'START OVER ↺',
+  'Tres niveles, tres mini encuestas y nuevos resultados para explorar a tu ritmo.':'Three paths, three quick surveys and fresh music to explore at your pace.',
+  'DESCUBRE A TU MANERA':'DISCOVER YOUR WAY','FAMILIAR':'FAMILIAR','TERRITORY':'TERRITORY','CROSS':'CROSS','OVER':'OVER','OUT OF':'OUT OF','COMFORT':'COMFORT',
+  'Artistas nuevos con algo de ese sonido que ya te encanta.':'New artists with something of the sound you already love.',
+  'Conexiones inesperadas entre tus gustos y otros mundos.':'Unexpected connections between your tastes and new worlds.',
+  'Una invitación a escuchar más allá de lo de siempre.':'An invitation to listen beyond the familiar.',
+  'ABRIR ESTE CAMINO':'OPEN THIS PATH','Partimos de artistas y canciones que ya están en tu zona conocida. Buscamos propuestas nuevas que compartan algún rasgo contigo: el género, la energía, la voz o el ambiente.':'We start with artists and songs in your comfort zone, then find new sounds that share a genre, energy, voice or atmosphere.',
+  'Conectamos tus gustos con otro estilo, escena o forma de producir. La idea es encontrar el puente entre dos mundos, no saltar a ciegas.':'We connect your tastes to another style, scene or production approach, finding a bridge between two worlds.',
+  'Dejamos que tus gustos sean el punto de partida, pero nos permitimos llegar más lejos: sonidos, escenas y artistas que quizá aún no forman parte de tu rutina.':'Your tastes are the starting point, then we venture toward sounds, scenes and artists outside your routine.',
+  'HACER ENCUESTA EXPRESS':'TAKE THE QUICK SURVEY','NOSOTROS':'ABOUT US','UNLOOP nace de una pregunta: ¿por qué, teniendo acceso a tanta diversidad musical, seguimos escuchando lo que ya conocemos? Para explorarla, analicé mi propio historial de Spotify entre 2018 y 2026: 1.873 horas de escucha, 53.385 reproducciones, 7.466 canciones y 2.249 artistas.':'UNLOOP began with a question: with so much music available, why do we keep listening to what we already know? To explore it, I analysed my Spotify history from 2018 to 2026: 1,873 listening hours, 53,385 plays, 7,466 songs and 2,249 artists.',
+  'Al mirar esos datos descubrí que, aunque había escuchado a miles de artistas, gran parte de mi tiempo se concentraba en un grupo mucho más pequeño. De ahí sale UNLOOP: una invitación a usar lo que ya nos gusta como punto de partida para descubrir artistas y canciones nuevas, sin juzgar nuestros gustos.':'The data showed me that even after listening to thousands of artists, much of my time went to a much smaller group. UNLOOP turns what we love into a starting point for finding new artists and songs, without judging our taste.',
+  'MI ESPACIO':'MY SPACE','TU MÚSICA, A TU MANERA':'YOUR MUSIC, YOUR WAY','CERRAR SESIÓN':'SIGN OUT','CONECTAR SPOTIFY':'CONNECT SPOTIFY','CREAR Y GUARDAR UN NUEVO LOOP':'CREATE AND SAVE A NEW LOOP',
+  'LOOPS GUARDADOS':'SAVED LOOPS','NOVEDADES DE TUS ARTISTAS':'ARTIST UPDATES','PRÓXIMOS CONCIERTOS':'UPCOMING CONCERTS','BUSCAR':'SEARCH','VOLVER ARRIBA ↑':'BACK TO TOP ↑',
+  '¡HOLA DE NUEVO!':'WELCOME BACK!','CORREO ELECTRÓNICO':'EMAIL ADDRESS','CONTINUAR':'CONTINUE','CONTINUAR CON GOOGLE':'CONTINUE WITH GOOGLE','CONTINUAR CON APPLE':'CONTINUE WITH APPLE','CONTINUAR CON INSTAGRAM':'CONTINUE WITH INSTAGRAM','¿NO TIENES CUENTA?':'NEW TO UNLOOP?'
+  ,'UNIVERSOS MUSICALES':'MUSIC WORLDS','ALT-R&B':'ALT-R&B','ELECTRÓNICA':'ELECTRONIC','¡Sorpréndeme!':'Surprise me!','¿Qué sonido te apetece explorar?':'What sound would you like to explore?','¿Qué quieres sentir al escuchar?':'What do you want to feel while listening?','Calma':'Calm','Energía':'Energy','IDIOMA':'LANGUAGE','Me da igual':'Any language','Otros idiomas':'Other languages','ENCUESTA EXPRESS · 2 PREGUNTAS':'QUICK SURVEY · 2 QUESTIONS','Encuentra otro ángulo.':'Find another angle.','Dos decisiones rápidas y una selección musical nueva.':'Two quick choices and a fresh music selection.','ENCUENTRA MI SIGUIENTE LOOP':'FIND MY NEXT LOOP','BUSCANDO TU LOOP…':'FINDING YOUR LOOP…','Tus descubrimientos':'Your discoveries','ÁLBUMES':'ALBUMS','ARTISTAS':'ARTISTS','VISTA PREVIA · 30 S':'30-SECOND PREVIEW','PROBAR OTRA VEZ ↺':'TRY AGAIN ↺','Nuevos sonidos familiares':'New familiar sounds','Un puente hacia otro sonido':'A bridge to a new sound','Fuera de tu loop habitual':'Outside your usual loop','AÑADIR A MI PLAYLIST DE SPOTIFY':'ADD TO MY SPOTIFY PLAYLIST','Inicio':'Home','Nosotros':'About us','DESCUBRE A TU MANERA':'DISCOVER YOUR WAY','POP':'POP','INDIE':'INDIE','HIP-HOP':'HIP-HOP','JAZZ':'JAZZ','ROCK':'ROCK'
+};
+const englishToSpanish = Object.fromEntries(Object.entries(languagePairs).map(([es,en])=>[en,es]));
+function t(es, en) { return pageLanguage === 'en' ? (en || languagePairs[es] || es) : es; }
+function applyLanguage() {
+  const translations = pageLanguage === 'en' ? languagePairs : englishToSpanish;
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  while (walker.nextNode()) {
+    const node = walker.currentNode, trimmed = node.nodeValue.trim();
+    let replacement = translations[trimmed];
+    if (!replacement && pageLanguage === 'en' && /^CANCIÓN ·/.test(trimmed)) replacement = trimmed.replace('CANCIÓN ·','TRACK ·');
+    if (!replacement && pageLanguage === 'en' && /^ÁLBUM ·/.test(trimmed)) replacement = trimmed.replace('ÁLBUM ·','ALBUM ·');
+    if (!replacement && pageLanguage === 'en' && /^ARTISTA ·/.test(trimmed)) replacement = trimmed.replace('ARTISTA ·','ARTIST ·');
+    if (replacement) node.nodeValue = node.nodeValue.replace(trimmed, replacement);
+  }
+  const attributes = {'Abrir menú':'Open menu','Cerrar menú':'Close menu','Cerrar':'Close','Canción anterior':'Previous song','Siguiente canción':'Next song','Reproducir vista previa':'Play preview','Abrir en Apple Music':'Open in Apple Music'};
+  document.querySelectorAll('[aria-label], [placeholder]').forEach(el => ['aria-label','placeholder'].forEach(attr => {
+    const value = el.getAttribute(attr); if (!value) return;
+    const translated = pageLanguage === 'en' ? attributes[value] : Object.fromEntries(Object.entries(attributes).map(([es,en])=>[en,es]))[value];
+    if (translated) el.setAttribute(attr, translated);
+  }));
+  document.documentElement.lang = pageLanguage;
+  const selector = document.querySelector('#language-select'); if (selector && selector.value !== pageLanguage) selector.value = pageLanguage;
+  document.title = pageLanguage === 'en' ? 'UNLOOP — Break the listening loop' : 'UNLOOP — Break the listening loop';
+}
 
 function escapeHtml(value) {
   return String(value ?? '').replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
@@ -81,6 +147,7 @@ function setStep(index) {
   backButton.hidden = step === 0;
   nextButton.innerHTML = step === steps.length - 1 ? 'VER DESCUBRIMIENTOS <span>↗</span>' : 'SIGUIENTE <span>→</span>';
   error.textContent = '';
+  applyLanguage();
 }
 
 setStep(0);
@@ -290,6 +357,7 @@ async function showRecommendations() {
   progressFill.style.width = '100%';
   stepLabel.textContent = 'MAPA COMPLETADO';
   percentLabel.textContent = '100%';
+  applyLanguage();
   document.querySelector('#results').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
@@ -312,6 +380,86 @@ document.querySelector('#restart-button').addEventListener('click', () => {
   document.querySelector('#artists').focus({ preventScroll: true });
 });
 form.addEventListener('submit', event => event.preventDefault());
+form.addEventListener('keydown', event => {
+  if (event.key !== 'Enter' || event.isComposing || event.target.matches('textarea, button')) return;
+  event.preventDefault();
+  if (!nextButton.disabled) nextButton.click();
+});
+
+// Selector de idioma y encuestas express de Descubre.
+document.querySelector('#language-select')?.addEventListener('change', event => {
+  pageLanguage = event.target.value === 'en' ? 'en' : 'es';
+  try { localStorage.setItem('unloop_language', pageLanguage); } catch { /* El idioma sigue activo durante esta visita. */ }
+  applyLanguage();
+});
+applyLanguage();
+
+const pathDialog = document.querySelector('#path-quiz-dialog');
+const pathForm = document.querySelector('#path-quiz-form');
+const pathError = document.querySelector('#path-quiz-error');
+const pathAudio = document.querySelector('#path-preview-audio');
+let pathMode = 'Familiar Territory';
+let pathPicks = [];
+let pathPickIndex = 0;
+function playPathPick(index, autoplay = true) {
+  if (!pathPicks.length) return;
+  pathPickIndex = (index + pathPicks.length) % pathPicks.length;
+  const pick = pathPicks[pathPickIndex];
+  document.querySelector('#path-player-title').textContent = pick.song;
+  document.querySelector('#path-player-artist').textContent = pick.artist;
+  document.querySelector('#path-player-progress').style.width = '0%';
+  const button = document.querySelector('#path-player-toggle');
+  if (!pick.preview) {
+    pathAudio.pause(); pathAudio.removeAttribute('src'); button.disabled = true; button.textContent = '—';
+    document.querySelector('#path-player-status').textContent = 'Sin fragmento disponible'; return;
+  }
+  button.disabled = false; button.textContent = '▶'; pathAudio.src = pick.preview; pathAudio.currentTime = 0;
+  if (autoplay) pathAudio.play().then(() => { button.textContent = 'Ⅱ'; }).catch(() => {});
+}
+document.querySelectorAll('[data-path-quiz]').forEach(button => button.addEventListener('click', () => {
+  pathMode = button.dataset.pathQuiz;
+  document.querySelector('#path-quiz-kicker').textContent = `${pathMode.toLocaleUpperCase()} · 2 PREGUNTAS`;
+  document.querySelector('#path-quiz-title').textContent = pathMode === 'Familiar Territory' ? 'Quédate cerca.' : pathMode === 'Crossover' ? 'Prueba una conexión nueva.' : 'Sal de tu zona conocida.';
+  pathForm.hidden = false; document.querySelector('#path-quiz-results').hidden = true; pathForm.reset(); pathError.textContent = '';
+  pathDialog.showModal();
+}));
+document.querySelector('#path-quiz-close').addEventListener('click', () => { pathAudio.pause(); pathDialog.close(); });
+pathDialog.addEventListener('click', event => { if (event.target === pathDialog) { pathAudio.pause(); pathDialog.close(); } });
+pathForm.addEventListener('submit', async event => {
+  event.preventDefault();
+  const genres = [...pathForm.querySelectorAll('[name="path-genre"]:checked')].map(input => input.value);
+  if (!genres.length) { pathError.textContent = 'Elige al menos un sonido para orientar tus recomendaciones.'; return; }
+  const mood = pathForm.querySelector('[name="path-mood"]:checked')?.value || 'Inspiración';
+  const language = document.querySelector('#path-language').value;
+  const loop = { artists: [], genres, languages: language === 'Cualquier idioma' ? [] : [language], moods: [mood], distance: pathMode, picks: [] };
+  const submit = pathForm.querySelector('[type="submit"]'); submit.disabled = true; submit.textContent = 'BUSCANDO TU LOOP…'; pathError.textContent = '';
+  try {
+    const catalog = await getCatalogRecommendations(loop);
+    loop.picks = catalog.picks; loop.albums = catalog.albums; loop.recommendedArtists = catalog.artists;
+    loop.artistSeeds = catalog.artistSeeds.map(item => item.artistName); window.unloopPending = loop;
+    document.querySelector('#path-track-recommendations').innerHTML = renderSongCards(loop.picks);
+    document.querySelector('#path-album-recommendations').innerHTML = loop.albums.length ? renderMiniCards(loop.albums, 'ÁLBUM') : '<p class="catalog-empty">Prueba otro sonido para encontrar álbumes.</p>';
+    document.querySelector('#path-artist-recommendations').innerHTML = loop.recommendedArtists.length ? renderMiniCards(loop.recommendedArtists, 'ARTISTA') : '<p class="catalog-empty">Prueba otro sonido para encontrar artistas.</p>';
+    document.querySelector('#path-result-heading').textContent = pathMode === 'Familiar Territory' ? 'Nuevos sonidos familiares' : pathMode === 'Crossover' ? 'Un puente hacia otro sonido' : 'Fuera de tu loop habitual';
+    pathPicks = loop.picks; playPathPick(0, false); pathForm.hidden = true; document.querySelector('#path-quiz-results').hidden = false; applyLanguage();
+  } catch (cause) { pathError.textContent = cause.message || 'No encontramos sugerencias. Prueba con otra combinación.'; }
+  finally { submit.disabled = false; submit.innerHTML = 'ENCUENTRA MI SIGUIENTE LOOP <span>↗</span>'; applyLanguage(); }
+});
+document.querySelector('#path-track-recommendations').addEventListener('click', event => {
+  const button = event.target.closest('[data-preview-index]'); if (button && !button.disabled) playPathPick(Number(button.dataset.previewIndex));
+});
+document.querySelector('#path-player-toggle').addEventListener('click', async () => {
+  const button = document.querySelector('#path-player-toggle');
+  if (!pathPicks[pathPickIndex]?.preview) return;
+  if (pathAudio.paused) { try { await pathAudio.play(); button.textContent = 'Ⅱ'; } catch { document.querySelector('#path-player-status').textContent = 'No se pudo reproducir'; } }
+  else { pathAudio.pause(); button.textContent = '▶'; }
+});
+document.querySelector('#path-player-prev').addEventListener('click', () => playPathPick(pathPickIndex - 1));
+document.querySelector('#path-player-next').addEventListener('click', () => playPathPick(pathPickIndex + 1));
+pathAudio.addEventListener('ended', () => playPathPick(pathPickIndex + 1));
+pathAudio.addEventListener('timeupdate', () => { document.querySelector('#path-player-progress').style.width = `${pathAudio.duration ? pathAudio.currentTime / pathAudio.duration * 100 : 0}%`; });
+document.querySelector('#path-save-loop-button').addEventListener('click', () => window.UnloopSpotify?.saveSurveyLoop({ messageSelector: '#path-save-loop-message' }));
+document.querySelector('#path-quiz-restart').addEventListener('click', () => { pathAudio.pause(); document.querySelector('#path-quiz-results').hidden = true; pathForm.hidden = false; pathForm.reset(); pathError.textContent = ''; applyLanguage(); });
 
 // Navegación global y scroll 03 · Despliegue exclusivo de niveles
 const menuButton = document.querySelector('#menu-button');
