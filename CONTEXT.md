@@ -30,7 +30,7 @@ La web invita a usar lo conocido como punto de partida para explorar música nue
 ## Decisiones
 - 18/11/2026 · UNLOOP representa la idea de romper el ciclo de escuchar siempre lo mismo.
 - 18/11/2026 · La web es una sola página con scrolls: Inicio, Nosotros, Descubre a tu manera, Mi espacio, Encuesta y pie.
-- 25/11/2026 · La encuesta abre el recorrido; después aparecen Inicio, Nosotros, Descubre a tu manera, Mi espacio y pie.
+- 25/11/2026 · La portada con la pregunta abre el recorrido; la encuesta es el segundo scroll y el CTA azul lleva hasta ella.
 - 18/11/2026 · La encuesta propia ofrece Familiar Territory, Crossover y Out of Comfort como distintos grados de descubrimiento.
 - 23/11/2026 · La identidad visual mantiene fondo negro, letras blancas, el logo UNLOOP y la onda con acentos amarillo, naranja, rosa, lila y azul.
 - 23/11/2026 · La pregunta de portada mantiene cuatro líneas exactas, con espacio claro entre el titular, el único botón y la onda.
