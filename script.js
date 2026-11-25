@@ -85,8 +85,8 @@ function setStep(index) {
 
 setStep(0);
 
-async function searchCatalogEntity(term, entity, limit = 18) {
-  const params = new URLSearchParams({ term, entity, limit: String(limit), country: 'ES' });
+async function searchCatalogEntity(term, entity, limit = 18, country = 'ES') {
+  const params = new URLSearchParams({ term, entity, limit: String(limit), country });
   return searchMusicCatalog(params);
 }
 
@@ -124,8 +124,9 @@ async function getCatalogRecommendations(loop) {
   const songSearchTerms = discoveryGenres.slice(0, 3).map(genre => [genre, suffix].filter(Boolean).join(' '));
   const albumLanguage = [...new Set(loop.languages.map(value => languageTerms[value]).filter(Boolean))].slice(0, 2);
   const albumSearchTerms = discoveryGenres.slice(0, 2).map(genre => [genre, ...albumLanguage].join(' '));
+  const catalogCountry = loop.languages.length === 1 && loop.languages[0] === 'Inglés' ? 'US' : 'ES';
   const requestGroup = async (entity, terms) => (await Promise.all(terms.map(async term => {
-    try { return await searchCatalogEntity(term, entity, 25); } catch { return []; }
+    try { return await searchCatalogEntity(term, entity, 25, catalogCountry); } catch { return []; }
   }))).flat();
   const [trackResults, albumResults] = await Promise.all([
     requestGroup('song', songSearchTerms), requestGroup('album', albumSearchTerms)
@@ -173,7 +174,7 @@ async function getCatalogRecommendations(loop) {
   }));
   const albumPicks = albums.map(album => ({
     artist: album.artistName, title: album.collectionName, catalogUrl: album.collectionViewUrl,
-    artwork: album.artworkUrl100?.replace('100x100', '600x600') || album.artworkUrl100 || '',
+    artwork: album.artworkUrl100 || '',
     detail: album.primaryGenreName || album.releaseDate?.slice(0, 4) || 'Álbum'
   }));
   const artistPicks = recommendedArtists.map(artist => ({
@@ -289,7 +290,7 @@ async function showRecommendations() {
   progressFill.style.width = '100%';
   stepLabel.textContent = 'MAPA COMPLETADO';
   percentLabel.textContent = '100%';
-  document.querySelector('.survey-card').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  document.querySelector('#results').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 nextButton.addEventListener('click', () => {
