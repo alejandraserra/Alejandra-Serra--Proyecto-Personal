@@ -12,8 +12,8 @@ El registro de lo que has probado con la IA y de qué ha pasado.
 ## Secciones de la web
 - Scroll 01 · Inicio `#portada` · pregunta central, marca y llamada a explorar.
 - Scroll 02 · Encuesta `#encuesta` · preferencias y propuestas de descubrimiento.
-- Scroll 03 · Nosotros `#nosotros` · origen del proyecto y fotografías.
-- Scroll 04 · Descubre `#descubre` · Familiar Territory, Crossover y Out of Comfort.
+- Scroll 03 · Descubre `#descubre` · Familiar Territory, Crossover y Out of Comfort con encuestas express.
+- Scroll 04 · Nosotros `#nosotros` · origen del proyecto y fotografías.
 - Scroll 05 · Mi espacio `#account-panel` · loops, novedades y conciertos tras conectar Spotify.
 - Pie · onda UNLOOP y vuelta al inicio.
 
@@ -125,3 +125,7 @@ Aprendido: [La encuesta lleva idioma a la consulta de canciones y álbumes; adem
 ## [25/11] · [Cierre visible del resultado]
 Criterio: [Al terminar la encuesta, mostrar el comienzo de las recomendaciones con el titular entero, y respetar mejor el mercado correspondiente al idioma seleccionado. ✅]
 Aprendido: [La búsqueda en catálogo usa la tienda de EE. UU. si se elige únicamente inglés y la española para las demás combinaciones; el resultado se desplaza hasta su título y las miniaturas usan la URL de portada original del catálogo.] 
+
+## [25/11] · [Encuestas express, idioma y recorrido]
+Criterio: [Mantener la portada intacta, añadir una encuesta breve por nivel de descubrimiento, vistas previas y guardado en playlist; ofrecer interfaz ES/EN y avance con Enter. ✅ código preparado]
+Aprendido: [Las tres encuestas usan la búsqueda de catálogo existente con el nivel correspondiente y preferencias elegidas, y muestran sus propias canciones, álbumes, artistas y controles de audio. El selector traduce los textos de interfaz y conserva la preferencia local. El orden sigue siendo portada, encuesta principal, Descubre y Nosotros. Para guardar en Spotify todavía falta el Client ID; verificar la página publicada después de desplegar.]
