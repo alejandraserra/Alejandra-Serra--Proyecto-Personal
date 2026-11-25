@@ -167,3 +167,7 @@
 
 /* Portada · mantener las cuatro líneas completas en ventanas estrechas */
 @media(max-width:700px){.hero h1{font-size:clamp(17px,4.6vw,30px);line-height:1.02;letter-spacing:-.7px}}
+
+/* Estudio · conservar zonas de clic propias aunque las cartas se solapen */
+@media(min-width:701px){.studio-card{width:clamp(190px,24vw,300px)}.studio-card-near{transform:translateX(-18vw) rotate(-8deg)}.studio-card-far{transform:translateX(18vw) rotate(9deg)}.studio-card-near.is-active{transform:translateX(-18vw) translateY(-8px) rotate(-4deg) scale(1.04)}.studio-card-mid.is-active{transform:translateX(0) translateY(-8px) rotate(0) scale(1.04)}.studio-card-far.is-active{transform:translateX(18vw) translateY(-8px) rotate(4deg) scale(1.04)}}
+@media(max-width:700px){.studio-card{width:min(42vw,225px)}.studio-card-near{transform:translateX(-23vw) rotate(-8deg)}.studio-card-mid{transform:translateX(0) rotate(3deg)}.studio-card-far{transform:translateX(23vw) rotate(9deg)}.studio-card-near.is-active{transform:translateX(-23vw) translateY(-5px) rotate(-4deg) scale(1.03)}.studio-card-mid.is-active{transform:translateY(-5px) rotate(0) scale(1.03)}.studio-card-far.is-active{transform:translateX(23vw) translateY(-5px) rotate(4deg) scale(1.03)}}
