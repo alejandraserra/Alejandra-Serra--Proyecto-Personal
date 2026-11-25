@@ -84,3 +84,7 @@ Aprendido: [fijar cada línea y reservar espacio vertical evita que el contenido
 ## [25/11] · [Fichas del loop]
 Criterio: [crear una ficha por cada sección de scroll trabajada, con las decisiones de Alejandra y Codex y quién verifica el resultado. ✅]
 Aprendido: [las fichas documentan el alcance de las decisiones de Codex y dejan la validación visual y de contenido en manos de Alejandra; Codex comprueba comportamiento y publicación.]
+
+## [25/11] · [Acceso, encuesta y Spotify]
+Criterio: [preparar correo, Google, Apple e Instagram con acceso real; consultar canciones de catálogo desde la encuesta y guardar los loops en Spotify. ✅ código preparado · pendiente configuración externa]
+Aprendido: [Supabase Auth gestiona el acceso por correo y redes; Spotify OAuth PKCE permite guardar canciones como playlists o añadirlas a una existente. La encuesta usa catálogos reales y guarda localmente sus respuestas para loops posteriores. Por las condiciones de Spotify no se leen playlists para perfilar gustos ni se consulta el top de artistas. Faltan el Client ID de Spotify y el proyecto/proveedores de Supabase; para probar Google, Apple e Instagram también hacen falta sus credenciales de proveedor.]
