@@ -11,9 +11,17 @@ Consulta las [fichas del loop por sección](FICHAS-LOOP.md) para ver qué decide
 3. Copia el Client ID público en `config.js`, en `spotifyClientId`.
 4. Abre la web desde GitHub Pages y pulsa **Inicia sesión → Conectar con Spotify**.
 
-La conexión usa OAuth PKCE y solicita leer los artistas más escuchados y las playlists privadas, además de permiso para crear playlists privadas. UNLOOP solo crea una playlist cuando la persona pulsa **Guardar este loop**. Los loops se guardan en la cuenta de Spotify para que sigan disponibles en sus dispositivos.
+La conexión usa OAuth PKCE y solicita acceso al perfil y playlists, además de permiso para crear playlists y añadir canciones. En el selector de la encuesta se puede elegir una playlist existente o crear una lista privada nueva. La sesión se conserva en el navegador; el token de Spotify no se guarda en GitHub. Para una app en modo de desarrollo, añade en el panel de Spotify las cuentas que probarán UNLOOP.
 
-Las nuevas canciones se buscan en el catálogo de Spotify a partir de estilos de artistas más escuchados y respuestas de la encuesta. Spotify ya no ofrece su endpoint de recomendaciones ni el de artistas relacionados a las aplicaciones nuevas; por eso esta versión crea loops con una selección por estilos y distancia de descubrimiento.
+Las canciones sugeridas se buscan en el catálogo de Spotify usando las respuestas de género, idioma, mood y nivel de descubrimiento. Sin Spotify conectado, la encuesta busca en el catálogo de Apple Music/iTunes. UNLOOP guarda localmente las respuestas de las encuestas guardadas y las usa como punto de partida para crear nuevos loops, novedades y conciertos; no analiza las canciones de Spotify ni el historial de escucha.
+
+## Activar el acceso de cuentas
+
+La pantalla permite entrar con un enlace enviado al correo o con Google, Apple e Instagram. Para activar estos métodos, crea un proyecto de [Supabase](https://supabase.com/dashboard), activa correo y Google/Apple en Authentication, y configura Instagram como proveedor OAuth personalizado si Meta permite ese uso para la cuenta. Añade la URL pública de UNLOOP a los redirects permitidos de Supabase. Cada persona debe autorizar su acceso; no hay cuentas de demostración precargadas.
+
+En `config.js`, rellena `supabaseUrl`, `supabaseAnonKey` y, si lo configuraste con otro identificador, `instagramAuthProvider`. La clave anon está pensada para el navegador; nunca publiques una `service_role` ni secretos de Google, Apple o Meta. Esos secretos se guardan solo en el panel de Supabase. Cada proveedor debe estar habilitado en el panel para que su botón pueda completar el acceso.
+
+Los métodos de correo y redes identifican a la persona en UNLOOP; conectar Spotify sigue siendo un permiso separado, necesario para guardar playlists. La memoria de preferencias se queda en el navegador y los loops se guardan también en la cuenta de Spotify elegida.
 
 ## Activar conciertos
 
