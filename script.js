@@ -15,16 +15,34 @@ function escapeHtml(value) {
   return value.replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
 }
 
-const discoverySeeds = {
-  Pop: [{ artist: 'Caroline Polachek', song: 'Bunny Is a Rider' }, { artist: 'Rina Sawayama', song: 'XS' }],
-  Indie: [{ artist: 'Men I Trust', song: 'Show Me How' }, { artist: 'Japanese Breakfast', song: 'Be Sweet' }],
-  'R&B': [{ artist: 'Cleo Sol', song: "Why Don't You" }, { artist: 'The Internet', song: 'Come Over' }],
-  Electrónica: [{ artist: 'Jamie xx', song: 'Gosh' }, { artist: 'Fred again..', song: 'Delilah (pull me out of this)' }],
-  'Hip-hop': [{ artist: 'Little Simz', song: 'Introvert' }, { artist: 'Noname', song: 'Diddy Bop' }],
-  Rock: [{ artist: 'Fontaines D.C.', song: 'Starburster' }, { artist: 'Wet Leg', song: 'Chaise Longue' }],
-  Jazz: [{ artist: 'BADBADNOTGOOD', song: 'Time Moves Slow' }, { artist: 'Nubya Garcia', song: 'Pace' }],
-  Sorpresa: [{ artist: 'Yaeji', song: 'For Granted' }, { artist: 'Khruangbin', song: 'Time (You and I)' }]
+const catalogTerms = {
+  Pop: 'alternative pop', Indie: 'indie', 'R&B': 'alternative r&b',
+  Electrónica: 'electronic', 'Hip-hop': 'alternative hip hop', Rock: 'indie rock',
+  Jazz: 'modern jazz', Sorpresa: 'alternative music'
 };
+const moodTerms = {
+  Desconectar: 'calm', Energía: 'energetic', Acompañamiento: 'intimate',
+  Inspiración: 'uplifting', Movimiento: 'dance', Todo: ''
+};
+const languageTerms = { Español: 'Spanish', Inglés: 'English', 'Otros idiomas': 'international' };
+
+function searchMusicCatalog(params) {
+  return new Promise((resolve, reject) => {
+    const callback = `unloopCatalog_${crypto.getRandomValues(new Uint32Array(1))[0].toString(36)}`;
+    const script = document.createElement('script');
+    const cleanUp = () => {
+      delete window[callback];
+      script.remove();
+      clearTimeout(timeout);
+    };
+    const timeout = setTimeout(() => { cleanUp(); reject(new Error('El catálogo musical está tardando demasiado. Inténtalo de nuevo.')); }, 12000);
+    window[callback] = data => { cleanUp(); resolve(data.results || []); };
+    script.onerror = () => { cleanUp(); reject(new Error('No hemos podido consultar el catálogo musical. Comprueba tu conexión e inténtalo otra vez.')); };
+    params.set('callback', callback);
+    script.src = `https://itunes.apple.com/search?${params}`;
+    document.head.append(script);
+  });
+}
 
 function setStep(index) {
   step = index;
@@ -41,20 +59,62 @@ function setStep(index) {
 
 setStep(0);
 
-function showRecommendations() {
+async function getCatalogRecommendations(loop) {
+  const terms = loop.genres.map(genre => catalogTerms[genre] || genre.toLowerCase());
+  const mood = loop.moods.map(value => moodTerms[value]).filter(Boolean).slice(0, 1)[0] || '';
+  const language = loop.languages.length === 1 && languageTerms[loop.languages[0]] ? languageTerms[loop.languages[0]] : '';
+  const favorites = new Set(loop.artists.map(name => name.toLocaleLowerCase()));
+  const requests = (terms.length ? terms : ['alternative music']).slice(0, 3).map(async term => {
+    const query = [term, language, mood].filter(Boolean).join(' ');
+    const params = new URLSearchParams({ term: query, entity: 'song', limit: '20', country: 'ES' });
+    return searchMusicCatalog(params);
+  });
+  const results = (await Promise.all(requests)).flat();
+  const candidates = results
+    .filter(track => track.trackName && track.artistName && track.trackViewUrl)
+    .filter(track => !favorites.has(track.artistName.toLocaleLowerCase()))
+    .filter(track => !/karaoke|tribute|cover version/i.test(track.trackName));
+  const unique = [...new Map(candidates.map(track => [track.trackId, track])).values()];
+  const picks = unique.slice(0, 4).map(track => ({
+    artist: track.artistName,
+    song: track.trackName,
+    catalogUrl: track.trackViewUrl,
+    artwork: track.artworkUrl100
+  }));
+  if (!picks.length) throw new Error('No encontramos pistas con estas respuestas. Prueba con otro artista o estilo.');
+  return picks;
+}
+
+async function showRecommendations() {
   const artists = document.querySelector('#artists').value.split(',').map(value => value.trim()).filter(Boolean).slice(0, 3);
   const genres = [...document.querySelectorAll('input[name="genre"]:checked')].map(input => input.value);
   const languages = [...document.querySelectorAll('input[name="language"]:checked')].map(input => input.value);
   const moods = [...document.querySelectorAll('input[name="mood"]:checked')].map(input => input.value);
   const distance = document.querySelector('input[name="distance"]:checked')?.value || 'Familiar Territory';
   const selectedGenres = genres.length ? genres : ['Sorpresa'];
-  const chosen = selectedGenres.flatMap(genre => discoverySeeds[genre] || []).slice(0, 4);
-  window.unloopPending = { artists, genres: selectedGenres, languages, moods, distance, picks: chosen };
+  const loop = { artists, genres: selectedGenres, languages, moods, distance, picks: [] };
+  const originalLabel = nextButton.innerHTML;
+  nextButton.disabled = true;
+  nextButton.textContent = 'BUSCANDO TU PRÓXIMO LOOP…';
+  error.textContent = '';
+  try {
+    loop.picks = window.UnloopSpotify?.isConnected()
+      ? await window.UnloopSpotify.getSurveyRecommendations(loop)
+      : await getCatalogRecommendations(loop);
+  } catch (cause) {
+    error.textContent = cause.message || 'No hemos podido encontrar canciones ahora. Inténtalo otra vez.';
+    return;
+  } finally {
+    nextButton.disabled = false;
+    nextButton.innerHTML = originalLabel;
+  }
+  window.unloopPending = loop;
   const artistsText = artists.length ? escapeHtml(artists.join(', ')) : 'Tus respuestas';
   const moodText = moods.length ? moods.join(' · ') : 'Curiosidad';
-  const picks = chosen.map((pick, index) => `<div class="recommendation"><span class="pick-index">0${index + 1}</span><div><strong>${pick.artist}</strong><small>${pick.song}</small></div><span class="pick-note">↗</span></div>`).join('');
+  const picks = loop.picks.map((pick, index) => `<a class="recommendation" href="${escapeHtml(pick.spotifyUrl || pick.catalogUrl || '#')}" target="_blank" rel="noopener noreferrer"><span class="pick-index">0${index + 1}</span>${pick.artwork ? `<img class="recommendation-art" src="${escapeHtml(pick.artwork)}" alt="" loading="lazy">` : ''}<span class="recommendation-copy"><strong>${escapeHtml(pick.artist)}</strong><small>${escapeHtml(pick.song)}</small></span><span class="pick-note">↗</span></a>`).join('');
   const languageText = languages.length ? languages.join(' · ') : 'Cualquier idioma';
-  document.querySelector('#result-details').innerHTML = `<p class="result-summary">Partimos de <strong>${artistsText}</strong>, los sonidos <strong>${selectedGenres.join(', ')}</strong> y el mood <strong>${moodText}</strong>. Idiomas: <strong>${languageText}</strong>. Camino: <strong>${distance}</strong>.</p><p class="result-kicker">PRIMERAS PISTAS · ${selectedGenres.join(' / ').toUpperCase()}</p><div class="recommendation-list">${picks}</div>`;
+  const catalogLabel = window.UnloopSpotify?.isConnected() ? 'PISTAS DE SPOTIFY' : 'PISTAS DEL CATÁLOGO MUSICAL';
+  document.querySelector('#result-details').innerHTML = `<p class="result-summary">Partimos de <strong>${artistsText}</strong>, los sonidos <strong>${selectedGenres.join(', ')}</strong> y el mood <strong>${moodText}</strong>. Idiomas: <strong>${languageText}</strong>. Camino: <strong>${distance}</strong>.</p><p class="result-kicker">${catalogLabel} · ${selectedGenres.join(' / ').toUpperCase()}</p><div class="recommendation-list">${picks}</div>`;
   form.hidden = true;
   results.hidden = false;
   progressFill.style.width = '100%';
@@ -103,7 +163,7 @@ const loginDialog = document.querySelector('#login-dialog');
 const loginMessage = document.querySelector('#login-message');
 document.querySelector('#sign-in-link').addEventListener('click', event => {
   event.preventDefault();
-  if (window.UnloopSpotify?.isConnected()) {
+  if (window.UnloopSpotify?.isConnected() || window.UnloopAuth?.isConnected()) {
     document.querySelector('#account-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
     return;
   }
@@ -113,15 +173,5 @@ document.querySelector('#sign-in-link').addEventListener('click', event => {
 document.querySelector('#login-close').addEventListener('click', () => loginDialog.close());
 loginDialog.addEventListener('click', event => {
   if (event.target === loginDialog) loginDialog.close();
-});
-document.querySelector('#login-form').addEventListener('submit', event => {
-  event.preventDefault();
-  loginMessage.textContent = 'El acceso aún no está conectado en esta primera versión.';
-});
-document.querySelectorAll('.social-login button').forEach(button => button.addEventListener('click', () => {
-  loginMessage.textContent = `El acceso con ${button.dataset.provider} aún no está conectado.`;
-}));
-document.querySelector('#signup-button').addEventListener('click', () => {
-  loginMessage.textContent = 'La creación de cuentas estará disponible más adelante.';
 });
 document.querySelector('#save-loop-button').addEventListener('click', () => window.UnloopSpotify?.saveSurveyLoop());
