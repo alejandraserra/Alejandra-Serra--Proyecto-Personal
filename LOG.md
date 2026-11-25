@@ -10,8 +10,8 @@ El registro de lo que has probado con la IA y de qué ha pasado.
 # LOG · [UNLOOP]
 
 ## Secciones de la web
-- Scroll 01 · Encuesta `#encuesta` · preferencias y propuestas de descubrimiento; primera sección visible.
-- Scroll 02 · Inicio `#portada` · pregunta central, marca y llamada a explorar.
+- Scroll 01 · Inicio `#portada` · pregunta central, marca y llamada a explorar.
+- Scroll 02 · Encuesta `#encuesta` · preferencias y propuestas de descubrimiento.
 - Scroll 03 · Nosotros `#nosotros` · origen del proyecto y fotografías.
 - Scroll 04 · Descubre `#descubre` · Familiar Territory, Crossover y Out of Comfort.
 - Scroll 05 · Mi espacio `#account-panel` · loops, novedades y conciertos tras conectar Spotify.
@@ -89,6 +89,14 @@ Aprendido: [las fichas documentan el alcance de las decisiones de Codex y dejan 
 Criterio: [poner la encuesta al inicio, ordenar el resto según prioridad para quien visita la web y rehacer el menú desplegable a pantalla completa siguiendo las referencias. ✅]
 Aprendido: [la primera sección visible ahora es la encuesta; después se presentan la pregunta y la identidad de UNLOOP, el origen del proyecto y los tres niveles de descubrimiento. El menú abre una navegación oscura de pantalla completa con destinos grandes, números, flechas y acceso prioritario a la encuesta. Sus estilos y comportamiento quedan en menu.css y menu.js.]
 
+## [25/11] · [Orden de portada y encuesta]
+Criterio: [mantener la pregunta de UNLOOP en la primera pantalla y dejar la encuesta en el segundo scroll; el único botón azul dice «Encuentra tu próximo loop» y lleva a la encuesta. Mejorar el icono de Spotify en el acceso. ✅]
+Aprendido: [la portada vuelve a abrir la página y presenta primero la pregunta; la encuesta queda justo después. El menú refleja Inicio (01) y Encuesta (02). El acceso a Spotify usa un icono más reconocible en una pastilla oscura para separarlo del fondo verde.]
+
 ## [25/11] · [Acceso, encuesta y Spotify]
 Criterio: [preparar correo, Google, Apple e Instagram con acceso real; consultar canciones de catálogo desde la encuesta y guardar los loops en Spotify. ✅ código preparado · pendiente configuración externa]
 Aprendido: [Supabase Auth gestiona el acceso por correo y redes; Spotify OAuth PKCE permite guardar canciones como playlists o añadirlas a una existente. La encuesta usa catálogos reales y guarda localmente sus respuestas para loops posteriores. Por las condiciones de Spotify no se leen playlists para perfilar gustos ni se consulta el top de artistas. Faltan el Client ID de Spotify y el proyecto/proveedores de Supabase; para probar Google, Apple e Instagram también hacen falta sus credenciales de proveedor.]
+
+## [25/11] · [Corrección final de portada e icono]
+Criterio: [dejar clara la secuencia de la web en el código: pregunta en el primer scroll, encuesta en el segundo; hacer reconocible el icono de Spotify junto al acceso. ✅]
+Aprendido: [la encuesta debe ser el destino del único botón azul, no el contenido inicial. El botón de Spotify se inserta junto al acceso y usa el símbolo verde con ondas negras sobre carbón. Para que inicien sesión Google y Apple falta configurar el proyecto y los proveedores de Supabase; para conectar Spotify falta el Client ID.]
