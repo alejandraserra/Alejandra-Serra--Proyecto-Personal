@@ -29,7 +29,7 @@ La web invita a usar lo conocido como punto de partida para explorar música nue
 
 ## Decisiones
 - 18/11/2026 · UNLOOP representa la idea de romper el ciclo de escuchar siempre lo mismo.
-- 18/11/2026 · La web es una sola página con scrolls: Inicio, Nosotros, Descubre a tu manera, Mi espacio, Encuesta y pie.
+- 18/11/2026 · La web es una sola página con scrolls: Inicio, Encuesta, Descubre a tu manera, Nosotros, Mi espacio y pie.
 - 25/11/2026 · La portada con la pregunta abre el recorrido; la encuesta es el segundo scroll y el CTA azul lleva hasta ella.
 - 18/11/2026 · La encuesta propia ofrece Familiar Territory, Crossover y Out of Comfort como distintos grados de descubrimiento.
 - 23/11/2026 · La identidad visual mantiene fondo negro, letras blancas, el logo UNLOOP y la onda con acentos amarillo, naranja, rosa, lila y azul.
@@ -37,6 +37,7 @@ La web invita a usar lo conocido como punto de partida para explorar música nue
 - 23/11/2026 · La conexión con Spotify es opcional; sin conectarla la encuesta sigue disponible.
 - 23/11/2026 · Las tarjetas de Descubre se abren de una en una y enlazan con la encuesta.
 - 25/11/2026 · Los accesos por correo y redes usan Supabase Auth; Spotify usa OAuth PKCE separado y permite añadir las canciones sugeridas a una playlist.
+- 25/11/2026 · Familiar Territory, Crossover y Out of Comfort tienen encuestas breves propias con recomendaciones del catálogo; el idioma de interfaz puede alternarse entre español e inglés.
 
 ## Hipótesis (sin comprobar)
 - Partir de los gustos personales y ofrecer distintos niveles de descubrimiento puede animar a encontrar música nueva.
@@ -50,6 +51,8 @@ La web invita a usar lo conocido como punto de partida para explorar música nue
 Hecho: análisis inicial de mi historial y referentes; definición de UNLOOP; web de una página con secciones de scroll, encuesta conectada a catálogos musicales, base de acceso con Supabase y conexión opcional con Spotify.
 
 Siguiente: introducir el Client ID de Spotify, configurar Supabase y los proveedores, añadir la clave de Ticketmaster y probar el flujo publicado con las cuentas de demo autorizadas.
+
+La encuesta principal avanza con Enter. Las encuestas express muestran canciones, álbumes, artistas y fragmentos de audio; guardar sus resultados en Spotify sigue necesitando Client ID y autorización.
 
 
 ## Actualización · Resultado de la encuesta (25/11/2026)
