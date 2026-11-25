@@ -10,11 +10,11 @@ El registro de lo que has probado con la IA y de qué ha pasado.
 # LOG · [UNLOOP]
 
 ## Secciones de la web
-- Scroll 01 · Inicio `#inicio` · portada y pregunta central.
-- Scroll 02 · Nosotros `#nosotros` · origen del proyecto y fotografías.
-- Scroll 03 · Descubre `#descubre` · Familiar Territory, Crossover y Out of Comfort.
-- Scroll 04 · Mi espacio `#account-panel` · loops, novedades y conciertos tras conectar Spotify.
-- Scroll 05 · Encuesta `#encuesta` · preferencias y propuestas de descubrimiento.
+- Scroll 01 · Encuesta `#encuesta` · preferencias y propuestas de descubrimiento; primera sección visible.
+- Scroll 02 · Inicio `#portada` · pregunta central, marca y llamada a explorar.
+- Scroll 03 · Nosotros `#nosotros` · origen del proyecto y fotografías.
+- Scroll 04 · Descubre `#descubre` · Familiar Territory, Crossover y Out of Comfort.
+- Scroll 05 · Mi espacio `#account-panel` · loops, novedades y conciertos tras conectar Spotify.
 - Pie · onda UNLOOP y vuelta al inicio.
 
 ## [18/11] · [Primera propuesta web]
@@ -84,6 +84,10 @@ Aprendido: [fijar cada línea y reservar espacio vertical evita que el contenido
 ## [25/11] · [Fichas del loop]
 Criterio: [crear una ficha por cada sección de scroll trabajada, con las decisiones de Alejandra y Codex y quién verifica el resultado. ✅]
 Aprendido: [las fichas documentan el alcance de las decisiones de Codex y dejan la validación visual y de contenido en manos de Alejandra; Codex comprueba comportamiento y publicación.]
+
+## [25/11] · [Encuesta primero y menú principal]
+Criterio: [poner la encuesta al inicio, ordenar el resto según prioridad para quien visita la web y rehacer el menú desplegable a pantalla completa siguiendo las referencias. ✅]
+Aprendido: [la primera sección visible ahora es la encuesta; después se presentan la pregunta y la identidad de UNLOOP, el origen del proyecto y los tres niveles de descubrimiento. El menú abre una navegación oscura de pantalla completa con destinos grandes, números, flechas y acceso prioritario a la encuesta.]
 
 ## [25/11] · [Acceso, encuesta y Spotify]
 Criterio: [preparar correo, Google, Apple e Instagram con acceso real; consultar canciones de catálogo desde la encuesta y guardar los loops en Spotify. ✅ código preparado · pendiente configuración externa]
