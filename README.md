@@ -37,3 +37,5 @@ Spotify no acepta `file://` como origen de OAuth: hay que probar la conexión de
 
 
 Al completar la encuesta, UNLOOP propone canciones, álbumes y artistas del catálogo musical a partir de las respuestas y muestra portadas y fragmentos de audio cuando el catálogo los ofrece. Las recomendaciones se pueden abrir para escuchar; guardar las canciones en Spotify requiere conectar una cuenta y configurar el Client ID.
+
+La interfaz incluye selector de idioma español/inglés y la encuesta principal avanza con Enter. En «Descubre a tu manera», Familiar Territory, Crossover y Out of Comfort abren mini encuestas independientes con nuevas recomendaciones, fragmentos disponibles y opción de guardarlas en Spotify.
