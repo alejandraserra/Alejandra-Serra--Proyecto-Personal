@@ -110,3 +110,20 @@ NO SIRVE SI:
 - [Se afirma que Spotify, Google o Apple ya están conectados mientras falten sus credenciales o configuración externa.]
 
 LO SABRÉ PORQUE: [La primera pantalla muestra la pregunta; el botón abre la encuesta del siguiente scroll y el icono de Spotify se reconoce junto a las opciones de acceso.]
+
+
+## [25/11] · [Recomendaciones al terminar la encuesta]
+
+QUIERO: [Que al completar la encuesta aparezca una selección visual de canciones, álbumes y artistas que ayude a salir del loop musical, basada en las respuestas.]
+
+SERÁ BUENO SI:
+- [La búsqueda considera artistas favoritos, géneros, idioma, mood y distancia de descubrimiento.]
+- [El resultado tiene portadas y tarjetas claras con enlaces al catálogo.]
+- [La persona puede reproducir fragmentos si el catálogo los ofrece y pasar entre canciones.]
+- [Spotify se usa para guardar las canciones en playlists, no es requisito para ver recomendaciones.]
+- [La nueva interacción y las limitaciones del catálogo quedan anotadas en LOG.md.]
+
+NO SIRVE SI:
+- [Se muestran recomendaciones fijas o se presenta una búsqueda fallida como si hubiera funcionado.]
+
+LO SABRÉ PORQUE: [Al terminar las preguntas se verá un resultado propio para esas respuestas, con canciones, álbumes, artistas y opciones para escuchar.]
