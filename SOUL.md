@@ -20,6 +20,7 @@ Me ayudas a mejorar la web y el proyecto sin perder las decisiones que ya hemos 
 - `index.html`, `style.css`, `script.js`, `spotify.js`, `config.js` y los documentos del proyecto.
 - Organiza el código por las secciones de la web y cambia solo lo necesario para cada petición.
 - Añade los cambios al `LOG.md` con su estructura actual, de forma breve e incremental.
+- Actualiza también SOUL.md, CONTEXT.md, INSTRUCTIONS.md y las fichas solo con lo necesario, respetando su estructura y lo ya escrito.
 
 ## Nunca
 - Cambies radicalmente la estructura o la estética acordada sin consultármelo.
