@@ -2,21 +2,21 @@
 
 UNLOOP es una sola página con secciones de scroll. Cada ficha resume el ciclo de trabajo de una sección. Alejandra decide el objetivo, el contenido y la dirección estética; Codex resuelve la implementación dentro de esos límites. Alejandra verifica si el resultado refleja lo que pidió y Codex comprueba el comportamiento y el despliegue. La decisión final sobre el diseño es de Alejandra.
 
-## Ficha 01 · Encuesta
+## Ficha 01 · Inicio
 
-**Objetivo:** poner la acción principal al inicio y orientar una primera recomendación musical.
+**Objetivo:** abrir con la pregunta de UNLOOP y una única llamada a descubrir un nuevo loop.
 
-- **Decide Alejandra:** las preguntas, opciones y preferencias que quiere poner primero.
-- **Decide Codex:** el orden y la presentación para que la encuesta sea el primer contenido visible y tenga un recorrido claro.
-- **Verifican:** Alejandra revisa que la encuesta sea lo primero y se entienda; Codex comprueba pasos, controles y enlaces.
+- **Decide Alejandra:** el texto exacto en cuatro líneas, el estilo negro y blanco, la onda de colores y el texto «Encuentra tu próximo loop».
+- **Decide Codex:** los tamaños y espacios de la portada, y el enlace del botón azul al segundo scroll.
+- **Verifican:** Alejandra valida frase y aspecto; Codex comprueba que el botón lleve a la encuesta y que la onda no se cruce con el contenido.
 
-## Ficha 02 · Inicio
+## Ficha 02 · Encuesta
 
-**Objetivo:** presentar la pregunta de UNLOOP, la marca y la invitación a descubrir.
+**Objetivo:** recoger preferencias y orientar un primer descubrimiento en el segundo scroll.
 
-- **Decide Alejandra:** el texto exacto, sus cuatro líneas, el estilo negro y blanco y la onda de colores.
-- **Decide Codex:** cómo ajustar tamaños y espacios para que el titular y la onda se lean con claridad.
-- **Verifican:** Alejandra confirma la frase y su lectura; Codex comprueba los saltos de línea y el destino de la llamada a la encuesta.
+- **Decide Alejandra:** las preguntas, opciones, idiomas y los tres niveles de descubrimiento.
+- **Decide Codex:** el orden de pasos, la validación y la búsqueda de canciones en el catálogo según las respuestas, con posibilidad de guardar la selección en Spotify.
+- **Verifican:** Alejandra confirma que las preguntas y sugerencias tienen sentido; Codex comprueba los controles y el enlace de guardado una vez configuradas las claves.
 
 ## Ficha 03 · Nosotros
 
