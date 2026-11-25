@@ -2,6 +2,8 @@
 
 Landing page y encuesta musical para explorar nuevas canciones a partir de los gustos de cada persona.
 
+Consulta las [fichas del loop por sección](FICHAS-LOOP.md) para ver qué decide Alejandra, qué resuelve Codex y cómo se verifica cada scroll.
+
 ## Activar la conexión con Spotify
 
 1. Crea una aplicación en [Spotify for Developers](https://developer.spotify.com/dashboard).
