@@ -127,3 +127,20 @@ NO SIRVE SI:
 - [Se muestran recomendaciones fijas o se presenta una búsqueda fallida como si hubiera funcionado.]
 
 LO SABRÉ PORQUE: [Al terminar las preguntas se verá un resultado propio para esas respuestas, con canciones, álbumes, artistas y opciones para escuchar.]
+
+## [25/11] · [Encuestas express e idioma]
+
+QUIERO: [Mantener la portada y ampliar la exploración con encuestas breves para Familiar Territory, Crossover y Out of Comfort, selector ES/EN y avance con Enter.]
+
+SERÁ BUENO SI:
+- [Cada nivel abre una encuesta sencilla y genera recomendaciones distintas desde el catálogo según las respuestas y su nivel de descubrimiento.]
+- [Los resultados incluyen canciones, álbumes, artistas, fragmentos disponibles y opción de guardado en Spotify.]
+- [La preferencia de idioma cambia la interfaz y se conserva durante las visitas; los nombres de artistas y canciones permanecen como en el catálogo.]
+- [Enter avanza la encuesta principal sin enviar el formulario por accidente.]
+- [Se mantienen estética, portada, orden de scrolls y formato incremental de los documentos.]
+
+NO SIRVE SI:
+- [Las mini encuestas repiten un resultado fijo o confirman un guardado de Spotify sin autorización.]
+- [El selector deja partes de la interfaz sin traducir o la página pierde la identidad UNLOOP.]
+
+LO SABRÉ PORQUE: [Puedo completar cada encuesta, reproducir las vistas previas disponibles y cambiar ES/EN; el guardado pide conectar Spotify si todavía no está autorizado.]
