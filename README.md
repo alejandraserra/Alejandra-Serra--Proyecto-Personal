@@ -1,6 +1,6 @@
 # UNLOOP
 
-La página abre directamente en la encuesta para mostrar primero la acción principal. A continuación presenta la pregunta y la identidad de UNLOOP, el origen del proyecto y sus tres niveles de descubrimiento. El menú de pantalla completa repite ese orden con enlaces grandes y numerados.
+La página abre con la pregunta de UNLOOP y una única caja azul: **Encuentra tu próximo loop**. Ese botón lleva directamente a la encuesta, que ocupa el segundo scroll. Después se presentan el origen del proyecto y los niveles de descubrimiento. El menú de pantalla completa sigue ese mismo orden con enlaces grandes y numerados.
 
 Landing page y encuesta musical para explorar nuevas canciones a partir de los gustos de cada persona.
 
