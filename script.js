@@ -153,10 +153,17 @@ pathCards.forEach(card => card.addEventListener('toggle', () => {
 menuButton.addEventListener('click', () => {
   const open = menuPanel.classList.toggle('open');
   menuButton.setAttribute('aria-expanded', String(open));
+  document.body.classList.toggle('menu-open', open);
+  menuButton.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
 });
-menuPanel.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+function closeMenu() {
   menuPanel.classList.remove('open'); menuButton.setAttribute('aria-expanded', 'false');
-}));
+  document.body.classList.remove('menu-open');
+  menuButton.setAttribute('aria-label', 'Abrir menú');
+}
+document.querySelector('#menu-close').addEventListener('click', closeMenu);
+menuPanel.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+document.addEventListener('keydown', event => { if (event.key === 'Escape') closeMenu(); });
 
 // Acceso y entrada al espacio personal
 const loginDialog = document.querySelector('#login-dialog');
