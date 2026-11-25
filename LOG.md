@@ -100,3 +100,8 @@ Aprendido: [Supabase Auth gestiona el acceso por correo y redes; Spotify OAuth P
 ## [25/11] · [Corrección final de portada e icono]
 Criterio: [dejar clara la secuencia de la web en el código: pregunta en el primer scroll, encuesta en el segundo; hacer reconocible el icono de Spotify junto al acceso. ✅]
 Aprendido: [la encuesta debe ser el destino del único botón azul, no el contenido inicial. El botón de Spotify se inserta junto al acceso y usa el símbolo verde con ondas negras sobre carbón. Para que inicien sesión Google y Apple falta configurar el proyecto y los proveedores de Supabase; para conectar Spotify falta el Client ID.]
+
+
+## [25/11] · [Resultado visual y recomendaciones de la encuesta]
+Criterio: [Al terminar la encuesta, mostrar canciones, álbumes y artistas para explorar, usando los gustos compartidos y una composición de portadas inspirada en la referencia, adaptada a la paleta de UNLOOP. ✅]
+Aprendido: [La búsqueda usa el catálogo público de música y ajusta términos con artistas favoritos, géneros, idioma, mood y distancia de descubrimiento; excluye los artistas que la persona ya escucha. El resultado ofrece portadas, enlaces y controles de vista previa cuando hay fragmento disponible. Spotify sigue siendo opcional para recomendar y requiere Client ID para guardar en playlist.]
