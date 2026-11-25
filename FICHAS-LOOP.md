@@ -18,21 +18,21 @@ UNLOOP es una sola página con secciones de scroll. Cada ficha resume el ciclo d
 - **Decide Codex:** el orden de pasos, la validación y la búsqueda de canciones, álbumes y artistas según artistas favoritos, géneros, idioma, mood y distancia de descubrimiento. El resultado incluye portadas, enlaces al catálogo y vistas previas cuando están disponibles; Spotify queda como opción para guardar canciones.
 - **Verifican:** Alejandra confirma que las preguntas, recomendaciones y presentación tienen sentido; Codex comprueba la búsqueda del catálogo y el reproductor. Guardar en Spotify requiere la configuración de su Client ID.
 
-## Ficha 03 · Nosotros
+## Ficha 03 · Descubre a tu manera
+
+**Objetivo:** explicar Familiar Territory, Crossover y Out of Comfort y ofrecer una encuesta breve para cada nivel.
+
+- **Decide Alejandra:** los nombres, el sentido de cada nivel, la paleta y que las preguntas sean amenas.
+- **Decide Codex:** las encuestas express, las consultas al catálogo, las portadas y reproducción de fragmentos disponibles.
+- **Verifican:** Alejandra confirma que cada resultado encaja con el nivel; Codex comprueba envío, resultados y reproductor. Guardar en Spotify requiere Client ID.
+
+## Ficha 04 · Nosotros
 
 **Objetivo:** contar de dónde sale el proyecto y conectar la historia con imágenes musicales.
 
 - **Decide Alejandra:** el relato personal, el tono y qué tipo de imágenes representan a UNLOOP.
 - **Decide Codex:** la composición del collage, el recorte adaptable, el movimiento sutil y los enlaces de las imágenes.
 - **Verifican:** Alejandra valida la imagen y el relato; Codex comprueba que las fotos carguen, se adapten y lleven a «Descubre».
-
-## Ficha 04 · Descubre a tu manera
-
-**Objetivo:** explicar Familiar Territory, Crossover y Out of Comfort.
-
-- **Decide Alejandra:** los nombres, el sentido de cada nivel, la paleta y los adornos que encajan con la identidad.
-- **Decide Codex:** el despliegue de las tarjetas, el comportamiento de acordeón y su adaptación a distintos anchos.
-- **Verifican:** Alejandra confirma las explicaciones y los colores; Codex comprueba que solo se abra la tarjeta seleccionada.
 
 ## Ficha 05 · Mi espacio
 
