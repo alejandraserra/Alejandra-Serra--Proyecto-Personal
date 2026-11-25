@@ -125,8 +125,8 @@ async function getCatalogRecommendations(loop) {
   const requestGroup = async entity => (await Promise.all(searchTerms.slice(0, entity === 'song' ? 3 : 2).map(async term => {
     try { return await searchCatalogEntity(term, entity, 25); } catch { return []; }
   }))).flat();
-  const [trackResults, albumResults, artistResults] = await Promise.all([
-    requestGroup('song'), requestGroup('album'), requestGroup('musicArtist')
+  const [trackResults, albumResults] = await Promise.all([
+    requestGroup('song'), requestGroup('album')
   ]);
   const unique = (items, key, limit) => [...new Map(items.filter(item => item[key]).map(item => [item[key], item])).values()].slice(0, limit);
   const allowedFamilies = new Set(loop.distance === 'Familiar Territory'
@@ -136,7 +136,7 @@ async function getCatalogRecommendations(loop) {
       : adventurousFamilies);
   const inChosenMusicWorld = item => {
     const family = genreFamily(item.primaryGenreName || item.genreName);
-    return !family || allowedFamilies.has(family);
+    return Boolean(family && allowedFamilies.has(family));
   };
   const relevance = item => {
     const family = genreFamily(item.primaryGenreName || item.genreName);
@@ -151,9 +151,17 @@ async function getCatalogRecommendations(loop) {
     .sort((a, b) => relevance(b) - relevance(a)), 'trackId', 12);
   const albums = unique(albumResults.filter(item => item.collectionName && item.artistName && item.collectionViewUrl && inChosenMusicWorld(item))
     .filter(item => !favorites.has(item.artistName.toLocaleLowerCase())), 'collectionId', 8);
-  const recommendedArtists = unique(artistResults.filter(item => item.artistName && item.artistLinkUrl && inChosenMusicWorld(item))
-    .filter(item => !favorites.has(item.artistName.toLocaleLowerCase())), 'artistId', 8);
-  const artworkForArtist = new Map(albums.map(album => [album.artistName.toLocaleLowerCase(), album.artworkUrl100]));
+  const recommendedArtists = unique([
+    ...tracks.map(item => ({
+      artistName: item.artistName, artistId: item.artistId, artistLinkUrl: item.artistViewUrl,
+      artworkUrl100: item.artworkUrl100, primaryGenreName: item.primaryGenreName
+    })),
+    ...albums.map(item => ({
+      artistName: item.artistName, artistId: item.artistId, artistLinkUrl: item.artistViewUrl,
+      artworkUrl100: item.artworkUrl100, primaryGenreName: item.primaryGenreName
+    }))
+  ].filter(item => item.artistName && item.artistLinkUrl && inChosenMusicWorld(item))
+    .filter(item => !favorites.has(item.artistName.toLocaleLowerCase())), 'artistName', 8);
   const picks = tracks.slice(0, 8).map(track => ({
     artist: track.artistName, song: track.trackName, catalogUrl: track.trackViewUrl,
     artwork: track.artworkUrl100?.replace('100x100', '600x600') || track.artworkUrl100 || '',
@@ -166,7 +174,7 @@ async function getCatalogRecommendations(loop) {
   }));
   const artistPicks = recommendedArtists.map(artist => ({
     artist: artist.artistName, catalogUrl: artist.artistLinkUrl,
-    artwork: artworkForArtist.get(artist.artistName.toLocaleLowerCase()) || '',
+    artwork: artist.artworkUrl100?.replace('100x100', '600x600') || artist.artworkUrl100 || '',
     detail: artist.primaryGenreName || 'Artista para explorar'
   }));
   if (!picks.length && !albumPicks.length && !artistPicks.length) throw new Error('No encontramos recomendaciones para esta combinación. Prueba con otro artista o estilo.');
