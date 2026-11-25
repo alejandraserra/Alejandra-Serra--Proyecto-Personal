@@ -117,3 +117,7 @@ Aprendido: [Las búsquedas de artistas por palabras clave pueden devolver págin
 ## [25/11] · [Selección de álbumes]
 Criterio: [Separar el mood y el idioma de la búsqueda de álbumes, y mostrar álbumes completos relacionados con los estilos, no compilaciones genéricas o singles. ✅]
 Aprendido: [Cada tipo de recomendación necesita sus propios filtros: mood e idioma enriquecen la búsqueda de canciones; las portadas de álbum se seleccionan por género, artista y nivel de exploración.] 
+
+## [25/11] · [Idioma y álbumes]
+Criterio: [Aplicar la preferencia de idioma también a la búsqueda de álbumes y evitar compilaciones sin un artista recomendado concreto. ✅]
+Aprendido: [La encuesta lleva idioma a la consulta de canciones y álbumes; además, excluye singles y recopilaciones en la sección de álbumes para reservarla a discos que se puedan explorar como álbumes.] 
