@@ -60,3 +60,20 @@ NO SIRVE SI:
 - [Se exponen secretos de proveedores en los archivos públicos.]
 
 LO SABRÉ PORQUE: [Al configurar las claves, podré iniciar sesión, completar la encuesta, guardar canciones en Spotify y volver a ver mis loops en Mi espacio.]
+
+## [25/11] · [Prioridad y orden de navegación]
+
+QUIERO: [Que la encuesta sea lo primero que vea una persona al entrar; después, que la web presente la idea de UNLOOP, el proyecto y los niveles de descubrimiento en un orden claro.]
+
+SERÁ BUENO SI:
+- [La encuesta aparece inmediatamente bajo la cabecera y es el primer scroll de la página.]
+- [El menú desplegable usa una pantalla completa, enlaces grandes numerados y flechas como en las referencias.]
+- [La encuesta ocupa el primer lugar del menú y cada enlace lleva a su sección correspondiente.]
+- [Se conserva la estética y el contenido base de UNLOOP.]
+- [LOG.md y las fichas reflejan el nuevo orden.]
+
+NO SIRVE SI:
+- [La encuesta queda al final o la persona tiene que buscarla entre otras secciones.]
+- [El menú tapa su propia acción de cierre o dificulta llegar a una sección.]
+
+LO SABRÉ PORQUE: [Al abrir la página aparece la encuesta; al abrir el menú puedo identificar y llegar a cada sección con claridad.]
