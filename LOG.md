@@ -105,3 +105,7 @@ Aprendido: [la encuesta debe ser el destino del único botón azul, no el conten
 ## [25/11] · [Resultado visual y recomendaciones de la encuesta]
 Criterio: [Al terminar la encuesta, mostrar canciones, álbumes y artistas para explorar, usando los gustos compartidos y una composición de portadas inspirada en la referencia, adaptada a la paleta de UNLOOP. ✅]
 Aprendido: [La búsqueda usa el catálogo público de música y ajusta términos con artistas favoritos, géneros, idioma, mood y distancia de descubrimiento; excluye los artistas que la persona ya escucha. El resultado ofrece portadas, enlaces y controles de vista previa cuando hay fragmento disponible. Spotify sigue siendo opcional para recomendar y requiere Client ID para guardar en playlist.]
+
+## [25/11] · [Afinar relevancia de recomendaciones]
+Criterio: [Evitar resultados que solo coincidan con palabras sueltas del mood y mostrar música coherente con el género elegido y el artista semilla. ✅]
+Aprendido: [El catálogo puede devolver resultados literales o de otros géneros. La encuesta ahora prioriza los géneros elegidos y cercanos según el nivel de descubrimiento, usa los géneros de artistas favoritos como semillas y descarta resultados fuera de esa afinidad antes de presentar canciones, álbumes y artistas.]
