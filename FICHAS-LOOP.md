@@ -26,7 +26,23 @@ UNLOOP es una sola página con secciones de scroll. Cada ficha resume el ciclo d
 - **Decide Codex:** las encuestas express, las consultas al catálogo, las portadas y reproducción de fragmentos disponibles.
 - **Verifican:** Alejandra confirma que cada resultado encaja con el nivel; Codex comprueba envío, resultados y reproductor. Guardar en Spotify requiere Client ID.
 
-## Ficha 04 · Nosotros
+## Ficha 04 · Estudio UNLOOP
+
+**Objetivo:** invitar a elegir visualmente una ruta y abrir la encuesta correspondiente.
+
+- **Decide Alejandra:** la referencia de cartas apiladas, los tres niveles y la identidad negra con acentos de onda.
+- **Decide Codex:** la composición superpuesta, el cambio de carta activa, la descripción de cada ruta y la conexión a su mini encuesta.
+- **Verifican:** Alejandra confirma que el conjunto pertenece a UNLOOP; Codex comprueba selección, adaptación móvil y apertura de la encuesta correcta.
+
+## Ficha 05 · Cómo funciona
+
+**Objetivo:** explicar de forma rápida cómo UNLOOP transforma gustos en nuevos descubrimientos.
+
+- **Decide Alejandra:** el tono sencillo, la prioridad del descubrimiento y la conexión opcional con Spotify.
+- **Decide Codex:** resumir la experiencia en tres pasos y enlazar sus explicaciones con las funciones reales.
+- **Verifican:** Alejandra revisa que la explicación sea clara; Codex contrasta el texto con el flujo de respuestas, catálogo y reproducción.
+
+## Ficha 06 · Nosotros
 
 **Objetivo:** contar de dónde sale el proyecto y conectar la historia con imágenes musicales.
 
@@ -34,7 +50,7 @@ UNLOOP es una sola página con secciones de scroll. Cada ficha resume el ciclo d
 - **Decide Codex:** la composición del collage, el recorte adaptable, el movimiento sutil y los enlaces de las imágenes.
 - **Verifican:** Alejandra valida la imagen y el relato; Codex comprueba que las fotos carguen, se adapten y lleven a «Descubre».
 
-## Ficha 05 · Mi espacio
+## Ficha 07 · Mi espacio
 
 **Objetivo:** reunir loops guardados, novedades de artistas y búsqueda de conciertos.
 
@@ -42,7 +58,7 @@ UNLOOP es una sola página con secciones de scroll. Cada ficha resume el ciclo d
 - **Decide Codex:** la implementación de Spotify OAuth PKCE, playlists y respuestas guardadas localmente para loops posteriores.
 - **Verifican:** Alejandra revisa los resultados; Codex comprueba las respuestas de las APIs. Las canciones del usuario no se analizan para crear un perfil. Se requiere configurar las credenciales.
 
-## Ficha 06 · Pie
+## Ficha 08 · Pie
 
 **Objetivo:** cerrar la página con el logo, la onda y una vuelta clara al inicio.
 
