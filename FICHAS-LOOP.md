@@ -15,8 +15,8 @@ UNLOOP es una sola página con secciones de scroll. Cada ficha resume el ciclo d
 **Objetivo:** recoger preferencias y orientar un primer descubrimiento en el segundo scroll.
 
 - **Decide Alejandra:** las preguntas, opciones, idiomas y los tres niveles de descubrimiento.
-- **Decide Codex:** el orden de pasos, la validación y la búsqueda de canciones en el catálogo según las respuestas, con posibilidad de guardar la selección en Spotify.
-- **Verifican:** Alejandra confirma que las preguntas y sugerencias tienen sentido; Codex comprueba los controles y el enlace de guardado una vez configuradas las claves.
+- **Decide Codex:** el orden de pasos, la validación y la búsqueda de canciones, álbumes y artistas según artistas favoritos, géneros, idioma, mood y distancia de descubrimiento. El resultado incluye portadas, enlaces al catálogo y vistas previas cuando están disponibles; Spotify queda como opción para guardar canciones.
+- **Verifican:** Alejandra confirma que las preguntas, recomendaciones y presentación tienen sentido; Codex comprueba la búsqueda del catálogo y el reproductor. Guardar en Spotify requiere la configuración de su Client ID.
 
 ## Ficha 03 · Nosotros
 
