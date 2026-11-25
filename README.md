@@ -1,5 +1,7 @@
 # UNLOOP
 
+La página abre directamente en la encuesta para mostrar primero la acción principal. A continuación presenta la pregunta y la identidad de UNLOOP, el origen del proyecto y sus tres niveles de descubrimiento. El menú de pantalla completa repite ese orden con enlaces grandes y numerados.
+
 Landing page y encuesta musical para explorar nuevas canciones a partir de los gustos de cada persona.
 
 Consulta las [fichas del loop por sección](FICHAS-LOOP.md) para ver qué decide Alejandra, qué resuelve Codex y cómo se verifica cada scroll.
