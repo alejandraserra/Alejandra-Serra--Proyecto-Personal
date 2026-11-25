@@ -333,8 +333,8 @@
     }));
   }
 
-  async function saveLoop(loop, customName, targetPlaylistId = '') {
-    const message = document.querySelector('#save-loop-message');
+  async function saveLoop(loop, customName, targetPlaylistId = '', messageSelector = '#save-loop-message') {
+    const message = document.querySelector(messageSelector) || document.querySelector('#save-loop-message');
     message.textContent = 'Buscando las canciones en Spotify…';
     try {
       const tracks = [];
@@ -368,18 +368,22 @@
     }
   }
 
-  async function saveSurveyLoop() {
+  async function saveSurveyLoop(options = {}) {
     const loop = window.unloopPending;
     if (!loop) return;
+    const messageSelector = options.messageSelector || '#save-loop-message';
+    const playlistSelector = options.playlistSelector || '#save-target-playlist';
+    const playlistSelect = document.querySelector(playlistSelector);
+    const targetPlaylist = playlistSelect?.value || '';
     if (!isConnected()) {
       storage.setItem('unloop_pending_loop', JSON.stringify(loop));
-      storage.setItem('unloop_pending_playlist', document.querySelector('#save-target-playlist').value);
+      storage.setItem('unloop_pending_playlist', targetPlaylist);
       storage.setItem('unloop_after_auth', 'save');
       loginDialog.showModal();
       announce('Conecta Spotify para guardar este loop en una playlist privada.');
       return;
     }
-    await saveLoop(loop, '', document.querySelector('#save-target-playlist').value);
+    await saveLoop(loop, '', targetPlaylist, messageSelector);
   }
 
   async function createAnotherLoop() {
