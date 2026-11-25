@@ -2,20 +2,22 @@
   const config = window.UNLOOP_CONFIG || {};
   const clientId = config.spotifyClientId?.trim();
   const redirectUri = config.spotifyRedirectUri || `${location.origin}${location.pathname}`;
-  const scope = 'user-read-private user-top-read playlist-read-private playlist-modify-private';
-  const storage = sessionStorage;
+  const scope = 'user-read-private playlist-read-private playlist-modify-private playlist-modify-public';
+  // Persistir la sesión local del navegador permite volver a Mi espacio.
+  let storage;
+  try { storage = window.localStorage; } catch { storage = window.sessionStorage; }
   const loginDialog = document.querySelector('#login-dialog');
   const loginMessage = document.querySelector('#login-message');
   const accountPanel = document.querySelector('#account-panel');
   const loginLink = document.querySelector('#sign-in-link');
-  const artistsById = new Map();
+  const loopMemoryKey = 'unloop_saved_loop_data';
   let currentProfile = null;
 
   const spotifyButton = document.createElement('button');
   spotifyButton.type = 'button';
   spotifyButton.id = 'spotify-connect';
   spotifyButton.className = 'spotify-connect';
-  spotifyButton.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#1ed760"/><path d="M5.1 9.2c4.4-1.3 9.9-.9 13.5 1.3.4.3.5.8.3 1.2-.3.4-.8.5-1.2.3-3.2-1.9-8.1-2.3-11.9-1.1-.5.1-.9-.1-1-.6-.2-.4.1-.9.5-1.1Zm.2 3.4c3.8-1.2 8.2-.8 11.2 1 .4.2.5.7.3 1.1-.2.4-.7.5-1.1.3-2.6-1.6-6.5-1.9-9.8-1-.4.1-.8-.1-.9-.5-.1-.4.1-.8.5-.9Zm.3 3.2c3.1-.9 6.5-.6 9 .9.3.2.4.6.2.9-.2.3-.6.4-.9.2-2.1-1.3-5-1.6-7.8-.8-.3.1-.7-.1-.8-.4-.1-.3.1-.7.4-.8Z" fill="#07120a"/></svg><span>CONECTAR CON SPOTIFY</span>';
+  spotifyButton.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="12" fill="#1ed760"/><path d="M5.1 8.6c4.3-1.3 9.9-.9 13.7 1.4.5.3.7.9.4 1.4-.3.5-.9.7-1.4.4-3.3-2-8.3-2.4-12.1-1.2-.6.2-1.2-.1-1.4-.7-.2-.5.1-1.1.8-1.3Zm.2 3.7c3.8-1.1 8-.7 11.1 1.1.5.3.7.9.4 1.4-.3.5-.9.6-1.4.3-2.7-1.6-6.4-1.9-9.6-1-.6.2-1.2-.1-1.4-.7-.1-.5.2-1 .9-1.2Zm.4 3.6c3.1-.9 6.3-.5 8.8.9.5.3.6.9.4 1.3-.3.5-.9.6-1.3.3-2.1-1.2-4.8-1.5-7.4-.8-.5.1-1.1-.2-1.2-.7-.2-.4.1-.9.7-1Z" fill="#07120a"/></svg><span>CONECTAR CON SPOTIFY</span>';
   document.querySelector('#login-title').after(spotifyButton);
 
   function announce(message) {
@@ -94,7 +96,7 @@
       body: new URLSearchParams({ client_id: clientId, grant_type: 'refresh_token', refresh_token: refresh })
     });
     const data = await response.json();
-    if (!response.ok) throw new Error('Vuelve a conectar tu cuenta de Spotify.');
+    if (!response.ok) throw new Error('Tu sesión de Spotify ha caducado. Vuelve a conectarla.');
     storage.setItem('unloop_spotify_access', data.access_token);
     storage.setItem('unloop_spotify_expiry', String(Date.now() + data.expires_in * 1000));
     if (data.refresh_token) storage.setItem('unloop_spotify_refresh', data.refresh_token);
@@ -102,14 +104,23 @@
   }
 
   async function spotify(path, options = {}) {
-    const token = await getAccessToken();
-    const response = await fetch(`https://api.spotify.com/v1${path}`, {
+    const request = token => fetch(`https://api.spotify.com/v1${path}`, {
       ...options,
       headers: { Authorization: `Bearer ${token}`, ...(options.body ? { 'Content-Type': 'application/json' } : {}), ...options.headers }
     });
+    let response = await request(await getAccessToken());
+    if (response.status === 401 && storage.getItem('unloop_spotify_refresh')) {
+      storage.removeItem('unloop_spotify_access');
+      response = await request(await getAccessToken());
+    }
     if (!response.ok) {
       if (response.status === 401) storage.removeItem('unloop_spotify_access');
-      const error = new Error(response.status === 403 ? 'Spotify no ha autorizado este permiso en la app.' : `Spotify respondió con el código ${response.status}.`);
+      const message = response.status === 403
+        ? 'Spotify ha rechazado el permiso. Revisa los permisos de la app y vuelve a conectar tu cuenta.'
+        : response.status === 429
+          ? 'Spotify está recibiendo muchas peticiones. Espera un momento e inténtalo de nuevo.'
+          : `Spotify respondió con el código ${response.status}.`;
+      const error = new Error(message);
       error.status = response.status;
       throw error;
     }
@@ -140,8 +151,10 @@
         storage.removeItem('unloop_after_auth');
         if (action === 'save') {
           const savedLoop = JSON.parse(storage.getItem('unloop_pending_loop') || 'null');
-          if (savedLoop) await saveLoop(savedLoop);
+          const targetPlaylist = storage.getItem('unloop_pending_playlist') || '';
+          if (savedLoop) await saveLoop(savedLoop, '', targetPlaylist);
           storage.removeItem('unloop_pending_loop');
+          storage.removeItem('unloop_pending_playlist');
         }
       } catch (error) {
         announce(error.message);
@@ -186,6 +199,9 @@
     document.querySelector('#account-name').textContent = profile.display_name || 'melómana';
     loginLink.textContent = 'MI CUENTA';
     accountPanel.hidden = false;
+    document.querySelector('#spotify-link-status').textContent = 'Spotify conectado. Tus loops y playlists se guardan en esta cuenta.';
+    document.querySelector('#connect-spotify-from-account').hidden = true;
+    document.querySelector('#create-from-tops').hidden = false;
     if (loginDialog.open) loginDialog.close();
     document.querySelector('#save-loop-button').textContent = 'GUARDAR ESTE LOOP EN SPOTIFY ↗';
     await loadSavedLoops();
@@ -198,41 +214,47 @@
     setEmpty(news, 'Buscando novedades de tus artistas…');
     try {
       const data = await spotify('/me/playlists?limit=50');
-      const playlists = (data.items || []).filter(list => list.name.startsWith('UNLOOP ·'));
+      const allPlaylists = data.items || [];
+      const targetSelect = document.querySelector('#save-target-playlist');
+      const selectedTarget = targetSelect.value;
+      targetSelect.replaceChildren(new Option('Crear una playlist privada nueva', ''));
+      allPlaylists.forEach(list => targetSelect.add(new Option(list.name, list.id)));
+      if (allPlaylists.some(list => list.id === selectedTarget)) targetSelect.value = selectedTarget;
+      const playlists = allPlaylists.filter(list => list.name.startsWith('UNLOOP ·'));
       loopList.replaceChildren();
       if (!playlists.length) setEmpty(loopList, 'Aún no tienes loops guardados. Completa la encuesta y guarda el primero.');
       else playlists.slice(0, 12).forEach(list => addItem(loopList, list.name.replace('UNLOOP · ', ''), `${list.tracks?.total ?? list.items?.total ?? 0} canciones · Playlist privada`, list.external_urls?.spotify));
-      await loadArtistNews(playlists.slice(0, 6));
+      await loadArtistNews();
     } catch (error) {
       setEmpty(loopList, error.message);
       setEmpty(news, 'Conecta Spotify y da permiso para leer tus playlists privadas.');
     }
   }
 
-  async function getLoopedArtists(playlists) {
-    const artists = new Map();
-    for (const playlist of playlists) {
-      try {
-        const data = await spotify(`/playlists/${encodeURIComponent(playlist.id)}/items?limit=30`);
-        const rows = Array.isArray(data.items) ? data.items : data.items?.items || [];
-        for (const row of rows) {
-          const track = row.item || row.track;
-          for (const artist of track?.artists || []) if (artist.id) artists.set(artist.id, artist);
-        }
-      } catch (error) {
-        console.warn('No se pudieron leer las canciones de una playlist de UNLOOP.', error);
-      }
-    }
-    artistsById.clear();
-    artists.forEach((artist, id) => artistsById.set(id, artist));
-    return [...artists.values()];
+  function readLoopMemory() {
+    try { return JSON.parse(storage.getItem(loopMemoryKey) || '[]'); } catch { return []; }
   }
 
-  async function loadArtistNews(playlists) {
+  function rememberLoop(loop, playlist) {
+    const entries = readLoopMemory().filter(item => item.playlistId !== playlist.id);
+    entries.unshift({ playlistId: playlist.id, name: playlist.name, artists: loop.artists || [], genres: loop.genres || [], languages: loop.languages || [], moods: loop.moods || [], distance: loop.distance || '' });
+    storage.setItem(loopMemoryKey, JSON.stringify(entries.slice(0, 50)));
+  }
+
+  async function lookupArtists(names) {
+    const lookups = await Promise.all([...new Set(names)].slice(0, 8).map(async name => {
+      const params = new URLSearchParams({ q: `artist:"${name}"`, type: 'artist', limit: '1' });
+      return (await spotify(`/search?${params}`)).artists?.items?.[0] || null;
+    }));
+    return lookups.filter(Boolean);
+  }
+
+  async function loadArtistNews() {
     const container = document.querySelector('#artist-news');
-    if (!playlists.length) return setEmpty(container, 'Cuando guardes un loop, verás aquí los lanzamientos recientes de esos artistas.');
-    const artists = (await getLoopedArtists(playlists)).slice(0, 8);
-    if (!artists.length) return setEmpty(container, 'Añade canciones a tus loops para seguir las novedades de sus artistas.');
+    const names = [...new Set(readLoopMemory().flatMap(loop => loop.artists || []))];
+    if (!names.length) return setEmpty(container, 'Cuando guardes una encuesta con tus artistas favoritos, podrás consultar aquí sus lanzamientos recientes.');
+    const artists = await lookupArtists(names);
+    if (!artists.length) return setEmpty(container, 'No encontramos los artistas guardados en el catálogo de Spotify.');
     const releases = [];
     for (const artist of artists) {
       try {
@@ -250,6 +272,9 @@
 
   // Encuesta · Guardar y crear loops en playlists privadas.
   async function findSpotifyTrack(pick) {
+    if (pick.uri && pick.uri.startsWith('spotify:track:')) {
+      return { id: pick.id || pick.uri.split(':').pop(), uri: pick.uri };
+    }
     const q = `track:"${pick.song}" artist:"${pick.artist}"`;
     const params = new URLSearchParams({ q, type: 'track', limit: '1' });
     const result = await spotify(`/search?${params}`);
@@ -258,7 +283,57 @@
     return (await spotify(`/search?${backup}`)).tracks?.items?.[0] || null;
   }
 
-  async function saveLoop(loop, customName) {
+  // Encuesta · pistas reales de Spotify filtradas por las respuestas.
+  async function getSurveyRecommendations(loop) {
+    const names = [...new Set((loop.artists || []).map(name => name.trim()).filter(Boolean))].slice(0, 3);
+    const artistLookups = await Promise.all(names.map(async name => {
+      const query = new URLSearchParams({ q: `artist:"${name}"`, type: 'artist', limit: '1' });
+      return (await spotify(`/search?${query}`)).artists?.items?.[0] || null;
+    }));
+    const matchedNames = artistLookups.filter(Boolean).map(artist => artist.name.toLocaleLowerCase());
+    if (names.length && !matchedNames.length) throw new Error('No encontramos esos artistas en Spotify. Comprueba cómo se escriben e inténtalo otra vez.');
+    const genreTerms = { Pop: 'pop', Indie: 'indie', 'R&B': 'r-n-b', Electrónica: 'electronic', 'Hip-hop': 'hip-hop', Rock: 'rock', Jazz: 'jazz', Sorpresa: 'alternative' };
+    const nearby = { Pop: ['indie', 'r-n-b'], Indie: ['alt-rock', 'indie-pop'], 'R&B': ['soul', 'pop'], Electrónica: ['dance', 'ambient'], 'Hip-hop': ['r-n-b', 'alternative'], Rock: ['indie', 'punk'], Jazz: ['soul', 'blues'], Sorpresa: ['indie', 'alternative'] };
+    const selected = (loop.genres || []).map(genre => genreTerms[genre]).filter(Boolean);
+    const available = [...new Set(Object.values(genreTerms).filter(genre => !selected.includes(genre)))];
+    let queryGenres = selected.length ? selected.slice(0, 3) : ['alternative'];
+    if (loop.distance === 'Familiar Territory') queryGenres = queryGenres.slice(0, 1);
+    if (loop.distance === 'Crossover') queryGenres = [...new Set([
+      ...queryGenres.slice(0, 1), ...(nearby[loop.genres?.[0]] || ['indie', 'alternative']).slice(0, 2)
+    ])];
+    if (loop.distance === 'Out of Comfort') {
+      queryGenres = [...available].sort(() => Math.random() - 0.5).slice(0, 2);
+    }
+    const moodWords = { Desconectar: 'calm', Energía: 'energetic', Acompañamiento: 'soft', Inspiración: 'uplifting', Movimiento: 'dance', Todo: '' };
+    const languageWords = { Español: 'Spanish', Inglés: 'English', 'Otros idiomas': 'international' };
+    const mood = (loop.moods || []).map(answer => moodWords[answer]).find(Boolean) || '';
+    const language = (loop.languages || []).map(answer => languageWords[answer]).find(Boolean) || '';
+    const querySuffix = [mood, language].filter(Boolean).join(' ');
+    const favoriteNames = new Set([...names.map(name => name.toLocaleLowerCase()), ...matchedNames]);
+    const searches = await Promise.all(queryGenres.map(async genre => {
+      const queryText = [`genre:"${genre}"`, querySuffix].filter(Boolean).join(' ');
+      const query = new URLSearchParams({ q: queryText, type: 'track', limit: '10', market: 'ES' });
+      const response = await spotify(`/search?${query}`);
+      return response.tracks?.items || [];
+    }));
+    let tracks = searches.flat().filter(track =>
+      track.artists?.every(person => !favoriteNames.has(person.name.toLocaleLowerCase()))
+    );
+    tracks = [...new Map(tracks.map(track => [track.id, track])).values()];
+    if (loop.distance === 'Out of Comfort') tracks.sort(() => Math.random() - 0.5);
+    tracks = tracks.slice(0, 4);
+    if (!tracks.length) throw new Error('Spotify no ha devuelto canciones nuevas para este loop. Cambia de artista o inténtalo de nuevo.');
+    return tracks.map(track => ({
+      id: track.id,
+      uri: track.uri,
+      artist: track.artists?.map(artist => artist.name).join(', ') || 'Artista',
+      song: track.name,
+      spotifyUrl: track.external_urls?.spotify,
+      artwork: track.album?.images?.[2]?.url || track.album?.images?.[0]?.url || ''
+    }));
+  }
+
+  async function saveLoop(loop, customName, targetPlaylistId = '') {
     const message = document.querySelector('#save-loop-message');
     message.textContent = 'Buscando las canciones en Spotify…';
     try {
@@ -270,10 +345,14 @@
       if (!tracks.length) throw new Error('No encontramos estas canciones en Spotify. Prueba a crear otro loop.');
       const date = new Intl.DateTimeFormat('es-ES', { day: '2-digit', month: 'short' }).format(new Date());
       const name = customName || `UNLOOP · ${loop.distance || 'Crossover'} · ${date}`;
-      const description = `Loop de UNLOOP · ${loop.distance || 'Crossover'} · Estilos: ${(loop.genres || []).join(', ')} · Idiomas: ${(loop.languages || []).join(', ') || 'Cualquiera'} · Punto de partida: ${(loop.artists || []).join(', ')}`.slice(0, 290);
-      const playlist = await spotify('/me/playlists', { method: 'POST', body: JSON.stringify({ name, description, public: false }) });
+      const description = `Loop de UNLOOP · ${loop.distance || 'Crossover'} · Estilos: ${(loop.genres || []).join(', ')} · Mood: ${(loop.moods || []).join(', ') || 'Curiosidad'} · Idiomas: ${(loop.languages || []).join(', ') || 'Cualquiera'} · Punto de partida: ${(loop.artists || []).join(', ')}`.slice(0, 290);
+      const playlist = targetPlaylistId
+        ? { id: targetPlaylistId, external_urls: { spotify: `https://open.spotify.com/playlist/${encodeURIComponent(targetPlaylistId)}` } }
+        : await spotify('/me/playlists', { method: 'POST', body: JSON.stringify({ name, description, public: false }) });
+      if (!playlist) throw new Error('No hemos podido preparar la playlist de Spotify.');
       await spotify(`/playlists/${encodeURIComponent(playlist.id)}/items`, { method: 'POST', body: JSON.stringify({ uris: tracks.map(track => track.uri) }) });
-      message.textContent = 'Loop guardado en tus playlists privadas de Spotify.';
+      rememberLoop(loop, { ...playlist, name });
+      message.textContent = targetPlaylistId ? 'Pistas añadidas a tu playlist de Spotify.' : 'Loop guardado en una nueva playlist privada de Spotify.';
       const link = document.createElement('a');
       link.href = playlist.external_urls.spotify;
       link.target = '_blank';
@@ -294,12 +373,13 @@
     if (!loop) return;
     if (!isConnected()) {
       storage.setItem('unloop_pending_loop', JSON.stringify(loop));
+      storage.setItem('unloop_pending_playlist', document.querySelector('#save-target-playlist').value);
       storage.setItem('unloop_after_auth', 'save');
       loginDialog.showModal();
       announce('Conecta Spotify para guardar este loop en una playlist privada.');
       return;
     }
-    await saveLoop(loop);
+    await saveLoop(loop, '', document.querySelector('#save-target-playlist').value);
   }
 
   async function createAnotherLoop() {
@@ -307,29 +387,13 @@
     button.disabled = true;
     button.textContent = 'BUSCANDO NUEVOS CAMINOS…';
     try {
-      const data = await spotify('/me/top/artists?limit=10&time_range=medium_term');
-      const topArtists = data.items || [];
-      const seen = new Set(topArtists.map(artist => artist.name.toLowerCase()));
-      const genres = [...new Set(topArtists.flatMap(artist => artist.genres || []))].slice(0, 8);
-      if (!genres.length) throw new Error('Spotify no ha devuelto suficientes estilos para crear otro loop. Completa también la encuesta para añadir tus preferencias.');
-      const candidates = [];
-      for (const genre of genres.slice(0, 5)) {
-        const query = new URLSearchParams({ q: `genre:"${genre}"`, type: 'track', limit: '10' });
-        const result = await spotify(`/search?${query}`);
-        for (const track of result.tracks?.items || []) {
-          const primaryArtist = track.artists?.[0];
-          if (!primaryArtist || seen.has(primaryArtist.name.toLowerCase()) || candidates.some(item => item.id === track.id)) continue;
-          candidates.push(track);
-        }
-      }
-      if (!candidates.length) throw new Error('Spotify no encontró canciones nuevas con los estilos de tus artistas.');
-      const shuffled = candidates.sort(() => Math.random() - 0.5).slice(0, 8);
+      const history = readLoopMemory();
       const distanceOptions = ['Familiar Territory', 'Crossover', 'Out of Comfort'];
-      const playlists = await spotify('/me/playlists?limit=50');
-      const loopNumber = (playlists.items || []).filter(list => list.name.startsWith('UNLOOP ·')).length;
+      const loopNumber = history.length;
       const distance = distanceOptions[loopNumber % distanceOptions.length];
-      const chosen = shuffled.slice(0, 4).map(track => ({ artist: track.artists[0].name, song: track.name }));
-      const loop = { artists: topArtists.slice(0, 3).map(artist => artist.name), genres: genres.slice(0,3), languages: [], moods: [], distance, picks: chosen };
+      const previous = history[0];
+      if (!previous) throw new Error('Completa la encuesta y guarda un loop para crear nuevas propuestas a partir de tus respuestas.');
+      const loop = { artists: previous.artists, genres: previous.genres, languages: previous.languages, moods: previous.moods, distance, picks: await getSurveyRecommendations({ ...previous, distance }) };
       const playlist = await saveLoop(loop, `UNLOOP · ${distance} · Loop ${String(loopNumber+1).padStart(2,'0')}`);
       if (playlist) accountPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } catch (error) {
@@ -349,13 +413,11 @@
     if (!isConnected()) return setEmpty(container, 'Conecta Spotify para buscar conciertos de los artistas de tus loops.');
     setEmpty(container, 'Buscando conciertos…');
     try {
-      const playlists = await spotify('/me/playlists?limit=50');
-      const saved = (playlists.items || []).filter(list => list.name.startsWith('UNLOOP ·')).slice(0, 6);
-      const artists = (await getLoopedArtists(saved)).slice(0, 6);
-      if (!artists.length) return setEmpty(container, 'Guarda primero un loop para buscar conciertos de sus artistas.');
+      const artistNames = [...new Set(readLoopMemory().flatMap(loop => loop.artists || []))].slice(0, 6);
+      if (!artistNames.length) return setEmpty(container, 'Guarda primero una encuesta con tus artistas para buscar conciertos.');
       const events = [];
-      for (const artist of artists) {
-        const params = new URLSearchParams({ apikey: apiKey, keyword: artist.name, city, classificationName: 'music', size: '5' });
+      for (const artistName of artistNames) {
+        const params = new URLSearchParams({ apikey: apiKey, keyword: artistName, city, classificationName: 'music', size: '5' });
         const response = await fetch(`https://app.ticketmaster.com/discovery/v2/events.json?${params}`);
         if (!response.ok) continue;
         const data = await response.json();
@@ -377,10 +439,14 @@
   function isConnected() { return Boolean(storage.getItem('unloop_spotify_access') || storage.getItem('unloop_spotify_refresh')); }
 
   async function logout() {
+    try { await window.UnloopAuth?.logout(); } catch { /* La conexión musical puede cerrarse aunque falle el otro proveedor. */ }
     ['unloop_spotify_access','unloop_spotify_refresh','unloop_spotify_expiry','unloop_spotify_state','unloop_spotify_verifier'].forEach(key => storage.removeItem(key));
     currentProfile = null;
     loginLink.textContent = 'INICIA SESIÓN';
     accountPanel.hidden = true;
+    document.querySelector('#spotify-link-status').textContent = 'Conecta Spotify para guardar y ver tus loops personales.';
+    document.querySelector('#connect-spotify-from-account').hidden = false;
+    document.querySelector('#create-from-tops').hidden = true;
     document.querySelector('#login-dialog').showModal();
     announce('Has cerrado tu sesión de UNLOOP en este navegador. Tus playlists siguen en Spotify.');
   }
@@ -393,7 +459,7 @@
     searchConcerts(document.querySelector('#concert-city').value.trim());
   });
 
-  window.UnloopSpotify = { isConnected, saveSurveyLoop, createAnotherLoop, searchConcerts, logout };
+  window.UnloopSpotify = { isConnected, saveSurveyLoop, createAnotherLoop, searchConcerts, logout, getSurveyRecommendations };
   handleCallback();
   if (isConnected() && !new URLSearchParams(location.search).has('code')) loadAccount().catch(error => announce(error.message));
 })();
