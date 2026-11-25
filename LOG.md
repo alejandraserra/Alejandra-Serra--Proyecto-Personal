@@ -13,8 +13,10 @@ El registro de lo que has probado con la IA y de qué ha pasado.
 - Scroll 01 · Inicio `#portada` · pregunta central, marca y llamada a explorar.
 - Scroll 02 · Encuesta `#encuesta` · preferencias y propuestas de descubrimiento.
 - Scroll 03 · Descubre `#descubre` · Familiar Territory, Crossover y Out of Comfort con encuestas express.
-- Scroll 04 · Nosotros `#nosotros` · origen del proyecto y fotografías.
-- Scroll 05 · Mi espacio `#account-panel` · loops, novedades y conciertos tras conectar Spotify.
+- Scroll 04 · Estudio UNLOOP `#estudio` · selector visual interactivo de rutas musicales.
+- Scroll 05 · Cómo funciona `#metodo` · recorrido en tres momentos, de las respuestas al play.
+- Scroll 06 · Nosotros `#nosotros` · origen del proyecto y fotografías.
+- Scroll 07 · Mi espacio `#account-panel` · loops, novedades y conciertos tras conectar Spotify.
 - Pie · onda UNLOOP y vuelta al inicio.
 
 ## [18/11] · [Primera propuesta web]
@@ -129,3 +131,7 @@ Aprendido: [La búsqueda en catálogo usa la tienda de EE. UU. si se elige únic
 ## [25/11] · [Encuestas express, idioma y recorrido]
 Criterio: [Mantener la portada intacta, añadir una encuesta breve por nivel de descubrimiento, vistas previas y guardado en playlist; ofrecer interfaz ES/EN y avance con Enter. ✅ código preparado]
 Aprendido: [Las tres encuestas usan la búsqueda de catálogo existente con el nivel correspondiente y preferencias elegidas, y muestran sus propias canciones, álbumes, artistas y controles de audio. El selector traduce los textos de interfaz y conserva la preferencia local. El orden sigue siendo portada, encuesta principal, Descubre y Nosotros. Para guardar en Spotify todavía falta el Client ID; verificar la página publicada después de desplegar.]
+
+## [25/11] · [Estudio UNLOOP y método]
+Criterio: [Ampliar el recorrido con cartas visuales apiladas que abran la encuesta del nivel elegido, explicar el funcionamiento en tres pasos y presentar las canciones como una selección en arco con un reproductor integrado debajo. ✅]
+Aprendido: [La fila de recomendaciones destaca la canción seleccionada y sincroniza la portada central con los controles de fragmento. El Estudio UNLOOP permite elegir Familiar Territory, Crossover u Out of Comfort y abre la encuesta correspondiente. El bloque «Cómo funciona» explica respuestas, selección musical y escucha; se añadieron al menú y al mapa de scrolls.]
