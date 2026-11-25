@@ -5,7 +5,7 @@ no te conoce (persona o IA) entienda qué haces, con qué y qué está decidido.
 -->
 
 # CONTEXT · UNLOOP
-Última actualización: 23/11/2026
+Última actualización: 25/11/2026
 
 ## La pregunta
 ¿POR QUÉ TENIENDO ACCESO A TANTA DIVERSIDAD MUSICAL, SEGUIMOS ESCUCHANDO LO QUE YA CONOCEMOS?
@@ -13,7 +13,9 @@ no te conoce (persona o IA) entienda qué haces, con qué y qué está decidido.
 ## Los datos
 - Fuente 1: mi historial personal de Spotify (2018–2026): 1.873 horas de escucha, 53.385 reproducciones, 7.466 canciones, 2.249 artistas y 5.078 álbumes.
 - Fuente 2: encuesta de cinco preguntas integrada en la web, que recoge artistas, estilos, idiomas, moods y distancia de descubrimiento. No hay un registro centralizado de respuestas.
-- Spotify es opcional. Cada persona debe autorizar la conexión antes de consultar sus artistas escuchados o guardar loops como playlists privadas.
+- Spotify es opcional. Cada persona autoriza la conexión por separado para guardar loops como playlists privadas.
+- Las recomendaciones parten de las respuestas de la encuesta. Las preferencias guardadas se mantienen en el navegador; no se leen ni analizan las canciones del usuario en Spotify.
+- El inicio por correo y Google/Apple/Instagram requiere proyecto y credenciales de Supabase; Spotify requiere Client ID.
 - La conexión de Spotify y la búsqueda de conciertos necesitan sus claves en `config.js` para activarse.
 
 ## El tono
@@ -33,6 +35,7 @@ La web invita a usar lo conocido como punto de partida para explorar música nue
 - 23/11/2026 · La pregunta de portada mantiene cuatro líneas exactas, con espacio claro entre el titular, el único botón y la onda.
 - 23/11/2026 · La conexión con Spotify es opcional; sin conectarla la encuesta sigue disponible.
 - 23/11/2026 · Las tarjetas de Descubre se abren de una en una y enlazan con la encuesta.
+- 25/11/2026 · Los accesos por correo y redes usan Supabase Auth; Spotify usa OAuth PKCE separado y permite añadir las canciones sugeridas a una playlist.
 
 ## Hipótesis (sin comprobar)
 - Partir de los gustos personales y ofrecer distintos niveles de descubrimiento puede animar a encontrar música nueva.
@@ -43,6 +46,6 @@ La web invita a usar lo conocido como punto de partida para explorar música nue
 - 18/11/2026 · Crear un Spotify Wrapped personal: UNLOOP usa la información para descubrir música, no solo para mostrar rankings.
 
 ## Estado
-Hecho: análisis inicial de mi historial y referentes; definición de UNLOOP; web de una página con secciones de scroll, encuesta y rutas de descubrimiento; base de conexión opcional con Spotify.
+Hecho: análisis inicial de mi historial y referentes; definición de UNLOOP; web de una página con secciones de scroll, encuesta conectada a catálogos musicales, base de acceso con Supabase y conexión opcional con Spotify.
 
-Siguiente: completar la configuración de Spotify y Ticketmaster, revisar el flujo publicado y seguir afinando la recomendación con respuestas reales.
+Siguiente: introducir el Client ID de Spotify, configurar Supabase y los proveedores, añadir la clave de Ticketmaster y probar el flujo publicado con las cuentas de demo autorizadas.
