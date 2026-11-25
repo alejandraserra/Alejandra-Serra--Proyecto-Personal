@@ -50,3 +50,7 @@ La web invita a usar lo conocido como punto de partida para explorar música nue
 Hecho: análisis inicial de mi historial y referentes; definición de UNLOOP; web de una página con secciones de scroll, encuesta conectada a catálogos musicales, base de acceso con Supabase y conexión opcional con Spotify.
 
 Siguiente: introducir el Client ID de Spotify, configurar Supabase y los proveedores, añadir la clave de Ticketmaster y probar el flujo publicado con las cuentas de demo autorizadas.
+
+
+## Actualización · Resultado de la encuesta (25/11/2026)
+Al terminar las cinco preguntas, UNLOOP busca canciones, álbumes y artistas del catálogo musical usando los artistas favoritos, géneros, idioma, mood y nivel de descubrimiento. Muestra portadas y permite reproducir fragmentos cuando están disponibles; las tarjetas llevan al catálogo para escuchar la pieza completa. Conectar Spotify es opcional para recibir recomendaciones y necesario para guardar las canciones en playlists.
