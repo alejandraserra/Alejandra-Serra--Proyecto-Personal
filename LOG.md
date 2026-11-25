@@ -87,7 +87,7 @@ Aprendido: [las fichas documentan el alcance de las decisiones de Codex y dejan 
 
 ## [25/11] · [Encuesta primero y menú principal]
 Criterio: [poner la encuesta al inicio, ordenar el resto según prioridad para quien visita la web y rehacer el menú desplegable a pantalla completa siguiendo las referencias. ✅]
-Aprendido: [la primera sección visible ahora es la encuesta; después se presentan la pregunta y la identidad de UNLOOP, el origen del proyecto y los tres niveles de descubrimiento. El menú abre una navegación oscura de pantalla completa con destinos grandes, números, flechas y acceso prioritario a la encuesta.]
+Aprendido: [la primera sección visible ahora es la encuesta; después se presentan la pregunta y la identidad de UNLOOP, el origen del proyecto y los tres niveles de descubrimiento. El menú abre una navegación oscura de pantalla completa con destinos grandes, números, flechas y acceso prioritario a la encuesta. Sus estilos y comportamiento quedan en menu.css y menu.js.]
 
 ## [25/11] · [Acceso, encuesta y Spotify]
 Criterio: [preparar correo, Google, Apple e Instagram con acceso real; consultar canciones de catálogo desde la encuesta y guardar los loops en Spotify. ✅ código preparado · pendiente configuración externa]
