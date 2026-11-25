@@ -113,3 +113,7 @@ Aprendido: [El catálogo puede devolver resultados literales o de otros géneros
 ## [25/11] · [Depuración de catálogo]
 Criterio: [Evitar artistas de relleno o álbumes sin relación con la elección musical y recomendar intérpretes que aparezcan en las canciones o álbumes sugeridos. ✅]
 Aprendido: [Las búsquedas de artistas por palabras clave pueden devolver páginas genéricas del catálogo. UNLOOP construye esa sección desde intérpretes acreditados en resultados musicales relevantes y descarta registros sin género identificable o fuera de los géneros permitidos para cada nivel.] 
+
+## [25/11] · [Selección de álbumes]
+Criterio: [Separar el mood y el idioma de la búsqueda de álbumes, y mostrar álbumes completos relacionados con los estilos, no compilaciones genéricas o singles. ✅]
+Aprendido: [Cada tipo de recomendación necesita sus propios filtros: mood e idioma enriquecen la búsqueda de canciones; las portadas de álbum se seleccionan por género, artista y nivel de exploración.] 
