@@ -134,7 +134,7 @@ Aprendido: [Las tres encuestas usan la búsqueda de catálogo existente con el n
 
 ## [25/11] · [Estudio UNLOOP y método]
 Criterio: [Ampliar el recorrido con cartas visuales apiladas que abran la encuesta del nivel elegido, explicar el funcionamiento en tres pasos y presentar las canciones como una selección en arco con un reproductor integrado debajo. ✅]
-Aprendido: [La fila de recomendaciones destaca la canción seleccionada y sincroniza la portada central con los controles de fragmento. El Estudio UNLOOP permite elegir Familiar Territory, Crossover u Out of Comfort y abre la encuesta correspondiente. El bloque «Cómo funciona» explica respuestas, selección musical y escucha; se añadieron al menú y al mapa de scrolls.]
+Aprendido: [La fila de recomendaciones destaca la canción seleccionada y sincroniza la portada central con los controles de fragmento. El Estudio UNLOOP permite elegir Familiar Territory, Crossover u Out of Comfort y abre la encuesta correspondiente. El bloque «Cómo funciona» explica respuestas, selección musical y escucha; se añadieron al menú y al mapa de scrolls. La composición deja espacio clicable para activar cada carta por separado.]
 
 ## [25/11] · [Lectura de portada en móvil]
 Criterio: [Mantener la pregunta de portada completa en cuatro líneas sin recorte en pantallas estrechas. ✅]
