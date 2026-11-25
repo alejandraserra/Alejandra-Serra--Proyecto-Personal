@@ -29,7 +29,7 @@ La web invita a usar lo conocido como punto de partida para explorar música nue
 
 ## Decisiones
 - 18/11/2026 · UNLOOP representa la idea de romper el ciclo de escuchar siempre lo mismo.
-- 18/11/2026 · La web es una sola página con scrolls: Inicio, Encuesta, Descubre a tu manera, Nosotros, Mi espacio y pie.
+- 18/11/2026 · La web es una sola página con scrolls: Inicio, Encuesta, Descubre a tu manera, Estudio UNLOOP, Cómo funciona, Nosotros, Mi espacio y pie.
 - 25/11/2026 · La portada con la pregunta abre el recorrido; la encuesta es el segundo scroll y el CTA azul lleva hasta ella.
 - 18/11/2026 · La encuesta propia ofrece Familiar Territory, Crossover y Out of Comfort como distintos grados de descubrimiento.
 - 23/11/2026 · La identidad visual mantiene fondo negro, letras blancas, el logo UNLOOP y la onda con acentos amarillo, naranja, rosa, lila y azul.
@@ -38,6 +38,7 @@ La web invita a usar lo conocido como punto de partida para explorar música nue
 - 23/11/2026 · Las tarjetas de Descubre se abren de una en una y enlazan con la encuesta.
 - 25/11/2026 · Los accesos por correo y redes usan Supabase Auth; Spotify usa OAuth PKCE separado y permite añadir las canciones sugeridas a una playlist.
 - 25/11/2026 · Familiar Territory, Crossover y Out of Comfort tienen encuestas breves propias con recomendaciones del catálogo; el idioma de interfaz puede alternarse entre español e inglés.
+- 25/11/2026 · El resultado visual presenta canciones en una fila de portadas en arco con un reproductor integrado; el Estudio UNLOOP selecciona y abre una ruta de descubrimiento y «Cómo funciona» explica el proceso en tres pasos.
 
 ## Hipótesis (sin comprobar)
 - Partir de los gustos personales y ofrecer distintos niveles de descubrimiento puede animar a encontrar música nueva.
