@@ -109,3 +109,7 @@ Aprendido: [La búsqueda usa el catálogo público de música y ajusta términos
 ## [25/11] · [Afinar relevancia de recomendaciones]
 Criterio: [Evitar resultados que solo coincidan con palabras sueltas del mood y mostrar música coherente con el género elegido y el artista semilla. ✅]
 Aprendido: [El catálogo puede devolver resultados literales o de otros géneros. La encuesta ahora prioriza los géneros elegidos y cercanos según el nivel de descubrimiento, usa los géneros de artistas favoritos como semillas y descarta resultados fuera de esa afinidad antes de presentar canciones, álbumes y artistas.]
+
+## [25/11] · [Depuración de catálogo]
+Criterio: [Evitar artistas de relleno o álbumes sin relación con la elección musical y recomendar intérpretes que aparezcan en las canciones o álbumes sugeridos. ✅]
+Aprendido: [Las búsquedas de artistas por palabras clave pueden devolver páginas genéricas del catálogo. UNLOOP construye esa sección desde intérpretes acreditados en resultados musicales relevantes y descarta registros sin género identificable o fuera de los géneros permitidos para cada nivel.] 
