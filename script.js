@@ -121,12 +121,13 @@ async function getCatalogRecommendations(loop) {
   const mood = [...new Set(loop.moods.map(value => moodTerms[value]).filter(Boolean))].slice(0, 2);
   const languages = [...new Set(loop.languages.map(value => languageTerms[value]).filter(Boolean))].slice(0, 2);
   const suffix = [...mood, ...languages].join(' ');
-  const searchTerms = discoveryGenres.slice(0, 3).map(genre => [genre, suffix].filter(Boolean).join(' '));
-  const requestGroup = async entity => (await Promise.all(searchTerms.slice(0, entity === 'song' ? 3 : 2).map(async term => {
+  const songSearchTerms = discoveryGenres.slice(0, 3).map(genre => [genre, suffix].filter(Boolean).join(' '));
+  const albumSearchTerms = discoveryGenres.slice(0, 2);
+  const requestGroup = async (entity, terms) => (await Promise.all(terms.map(async term => {
     try { return await searchCatalogEntity(term, entity, 25); } catch { return []; }
   }))).flat();
   const [trackResults, albumResults] = await Promise.all([
-    requestGroup('song'), requestGroup('album')
+    requestGroup('song', songSearchTerms), requestGroup('album', albumSearchTerms)
   ]);
   const unique = (items, key, limit) => [...new Map(items.filter(item => item[key]).map(item => [item[key], item])).values()].slice(0, limit);
   const allowedFamilies = new Set(loop.distance === 'Familiar Territory'
@@ -150,6 +151,7 @@ async function getCatalogRecommendations(loop) {
     .filter(item => !/karaoke|tribute|cover version/i.test(item.trackName))
     .sort((a, b) => relevance(b) - relevance(a)), 'trackId', 12);
   const albums = unique(albumResults.filter(item => item.collectionName && item.artistName && item.collectionViewUrl && inChosenMusicWorld(item))
+    .filter(item => !/\bsingle\b|work music|office|energetic|music for dogs|various artists|songs from and inspired by|karaoke|tribute/i.test(item.collectionName))
     .filter(item => !favorites.has(item.artistName.toLocaleLowerCase())), 'collectionId', 8);
   const recommendedArtists = unique([
     ...tracks.map(item => ({
