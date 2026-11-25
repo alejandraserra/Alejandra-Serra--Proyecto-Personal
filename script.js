@@ -1,4 +1,4 @@
-// Scroll 05 · Encuesta, preguntas y resultados
+// Scroll 02 · Encuesta, preguntas y resultados
 const form = document.querySelector('#taste-form');
 const steps = [...document.querySelectorAll('.question')];
 const nextButton = document.querySelector('#next-button');
@@ -12,7 +12,7 @@ const results = document.querySelector('#results');
 let step = 0;
 
 function escapeHtml(value) {
-  return value.replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
+  return String(value ?? '').replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
 }
 
 const catalogTerms = {
@@ -25,6 +25,17 @@ const moodTerms = {
   Inspiración: 'uplifting', Movimiento: 'dance', Todo: ''
 };
 const languageTerms = { Español: 'Spanish', Inglés: 'English', 'Otros idiomas': 'international' };
+const relatedGenres = {
+  Pop: ['indie pop', 'alternative r&b'], Indie: ['alternative', 'indie pop'],
+  'R&B': ['soul', 'alternative pop'], Electrónica: ['dance', 'ambient'],
+  'Hip-hop': ['alternative hip hop', 'neo soul'], Rock: ['indie rock', 'alternative'],
+  Jazz: ['neo soul', 'alternative r&b'], Sorpresa: ['alternative', 'world music']
+};
+const comfortBreakers = {
+  Pop: ['jazz', 'ambient'], Indie: ['r&b', 'electronic'], 'R&B': ['indie rock', 'folk'],
+  Electrónica: ['soul', 'indie'], 'Hip-hop': ['jazz', 'indie pop'], Rock: ['neo soul', 'electronic'],
+  Jazz: ['hip hop', 'indie pop'], Sorpresa: ['latin alternative', 'neo soul']
+};
 
 function searchMusicCatalog(params) {
   return new Promise((resolve, reject) => {
@@ -59,31 +70,136 @@ function setStep(index) {
 
 setStep(0);
 
-async function getCatalogRecommendations(loop) {
-  const terms = loop.genres.map(genre => catalogTerms[genre] || genre.toLowerCase());
-  const mood = loop.moods.map(value => moodTerms[value]).filter(Boolean).slice(0, 1)[0] || '';
-  const language = loop.languages.length === 1 && languageTerms[loop.languages[0]] ? languageTerms[loop.languages[0]] : '';
-  const favorites = new Set(loop.artists.map(name => name.toLocaleLowerCase()));
-  const requests = (terms.length ? terms : ['alternative music']).slice(0, 3).map(async term => {
-    const query = [term, language, mood].filter(Boolean).join(' ');
-    const params = new URLSearchParams({ term: query, entity: 'song', limit: '20', country: 'ES' });
-    return searchMusicCatalog(params);
-  });
-  const results = (await Promise.all(requests)).flat();
-  const candidates = results
-    .filter(track => track.trackName && track.artistName && track.trackViewUrl)
-    .filter(track => !favorites.has(track.artistName.toLocaleLowerCase()))
-    .filter(track => !/karaoke|tribute|cover version/i.test(track.trackName));
-  const unique = [...new Map(candidates.map(track => [track.trackId, track])).values()];
-  const picks = unique.slice(0, 4).map(track => ({
-    artist: track.artistName,
-    song: track.trackName,
-    catalogUrl: track.trackViewUrl,
-    artwork: track.artworkUrl100
-  }));
-  if (!picks.length) throw new Error('No encontramos pistas con estas respuestas. Prueba con otro artista o estilo.');
-  return picks;
+async function searchCatalogEntity(term, entity, limit = 18) {
+  const params = new URLSearchParams({ term, entity, limit: String(limit), country: 'ES' });
+  return searchMusicCatalog(params);
 }
+
+async function getCatalogRecommendations(loop) {
+  const favorites = new Set(loop.artists.map(name => name.trim().toLocaleLowerCase()));
+  const artistSeeds = (await Promise.all(loop.artists.map(async name => {
+    try {
+      const matches = await searchCatalogEntity(name, 'musicArtist', 5);
+      const wanted = name.trim().toLocaleLowerCase();
+      return matches.find(item => item.artistName?.toLocaleLowerCase() === wanted) || matches[0] || null;
+    } catch { return null; }
+  }))).filter(Boolean);
+  const chosen = loop.genres.length ? loop.genres : ['Sorpresa'];
+  const artistGenres = artistSeeds.map(item => item.primaryGenreName).filter(Boolean);
+  const baseGenres = [...new Set([
+    ...chosen.slice(0, 2).map(genre => catalogTerms[genre] || genre.toLowerCase()),
+    ...artistGenres.slice(0, 2).map(genre => genre.toLowerCase())
+  ])];
+  let discoveryGenres = baseGenres;
+  if (loop.distance === 'Crossover') {
+    discoveryGenres = [...new Set([...baseGenres.slice(0, 1), ...(relatedGenres[chosen[0]] || ['alternative', 'indie'])])];
+  }
+  if (loop.distance === 'Out of Comfort') {
+    discoveryGenres = [...new Set([...(comfortBreakers[chosen[0]] || ['alternative', 'world music']), ...artistGenres.slice(0, 1).map(genre => `alternative ${genre.toLowerCase()}`)])];
+  }
+  if (!discoveryGenres.length) discoveryGenres = ['alternative music'];
+
+  const mood = [...new Set(loop.moods.map(value => moodTerms[value]).filter(Boolean))].slice(0, 2);
+  const languages = [...new Set(loop.languages.map(value => languageTerms[value]).filter(Boolean))].slice(0, 2);
+  const suffix = [...mood, ...languages].join(' ');
+  const searchTerms = discoveryGenres.slice(0, 3).map(genre => [genre, suffix].filter(Boolean).join(' '));
+  const requestGroup = async entity => (await Promise.all(searchTerms.slice(0, entity === 'song' ? 3 : 2).map(async term => {
+    try { return await searchCatalogEntity(term, entity, 25); } catch { return []; }
+  }))).flat();
+  const [trackResults, albumResults, artistResults] = await Promise.all([
+    requestGroup('song'), requestGroup('album'), requestGroup('musicArtist')
+  ]);
+  const unique = (items, key, limit) => [...new Map(items.filter(item => item[key]).map(item => [item[key], item])).values()].slice(0, limit);
+  const tracks = unique(trackResults.filter(item => item.trackName && item.artistName && item.trackViewUrl)
+    .filter(item => !favorites.has(item.artistName.toLocaleLowerCase()))
+    .filter(item => !/karaoke|tribute|cover version/i.test(item.trackName)), 'trackId', 12);
+  const albums = unique(albumResults.filter(item => item.collectionName && item.artistName && item.collectionViewUrl)
+    .filter(item => !favorites.has(item.artistName.toLocaleLowerCase())), 'collectionId', 8);
+  const recommendedArtists = unique(artistResults.filter(item => item.artistName && item.artistLinkUrl)
+    .filter(item => !favorites.has(item.artistName.toLocaleLowerCase())), 'artistId', 8);
+  const artworkForArtist = new Map(albums.map(album => [album.artistName.toLocaleLowerCase(), album.artworkUrl100]));
+  const picks = tracks.slice(0, 8).map(track => ({
+    artist: track.artistName, song: track.trackName, catalogUrl: track.trackViewUrl,
+    artwork: track.artworkUrl100?.replace('100x100', '600x600') || track.artworkUrl100 || '',
+    preview: track.previewUrl || ''
+  }));
+  const albumPicks = albums.map(album => ({
+    artist: album.artistName, title: album.collectionName, catalogUrl: album.collectionViewUrl,
+    artwork: album.artworkUrl100?.replace('100x100', '600x600') || album.artworkUrl100 || '',
+    detail: album.primaryGenreName || album.releaseDate?.slice(0, 4) || 'Álbum'
+  }));
+  const artistPicks = recommendedArtists.map(artist => ({
+    artist: artist.artistName, catalogUrl: artist.artistLinkUrl,
+    artwork: artworkForArtist.get(artist.artistName.toLocaleLowerCase()) || '',
+    detail: artist.primaryGenreName || 'Artista para explorar'
+  }));
+  if (!picks.length && !albumPicks.length && !artistPicks.length) throw new Error('No encontramos recomendaciones para esta combinación. Prueba con otro artista o estilo.');
+  if (!picks.length) throw new Error('Ahora mismo no encontramos canciones para reproducir. Cambia alguna respuesta e inténtalo otra vez.');
+  return { picks, albums: albumPicks, artists: artistPicks, artistSeeds, discoveryGenres };
+}
+
+function renderSongCards(picks) {
+  return picks.map((pick, index) => `<article class="cover-card${index === 2 ? ' cover-card-featured' : ''}">
+    <a class="cover-link" href="${escapeHtml(pick.catalogUrl)}" target="_blank" rel="noopener noreferrer" aria-label="Abrir ${escapeHtml(pick.song)} de ${escapeHtml(pick.artist)} en Apple Music">
+      ${pick.artwork ? `<img src="${escapeHtml(pick.artwork)}" alt="Portada de ${escapeHtml(pick.song)}" loading="lazy">` : '<span class="cover-fallback">UN<br>LOOP</span>'}
+      <span class="cover-shade"></span><span class="cover-kind">CANCIÓN · 0${index + 1}</span>
+      <span class="cover-copy"><strong>${escapeHtml(pick.song)}</strong><small>${escapeHtml(pick.artist)}</small></span>
+    </a>
+    <button type="button" class="cover-play" data-preview-index="${index}" ${pick.preview ? '' : 'disabled'} aria-label="${pick.preview ? `Escuchar vista previa de ${escapeHtml(pick.song)}` : `Vista previa no disponible de ${escapeHtml(pick.song)}`}" title="${pick.preview ? 'Escuchar fragmento' : 'Vista previa no disponible'}">${pick.preview ? '▶' : '↗'}</button>
+  </article>`).join('');
+}
+
+function renderMiniCards(items, kind) {
+  return items.map((item, index) => `<a class="mini-music-card" href="${escapeHtml(item.catalogUrl)}" target="_blank" rel="noopener noreferrer">
+    <span class="mini-art">${item.artwork ? `<img src="${escapeHtml(item.artwork)}" alt="" loading="lazy">` : '<i>UN<br>LOOP</i>'}</span>
+    <span class="mini-copy"><small>${kind} · 0${index + 1}</small><strong>${escapeHtml(item.title || item.artist)}</strong><span>${escapeHtml(item.title ? item.artist : item.detail)}</span></span><b>↗</b>
+  </a>`).join('');
+}
+
+const previewAudio = document.querySelector('#preview-audio');
+let activePreviewPicks = [];
+let activePreviewIndex = 0;
+function selectPreview(index, autoplay = true) {
+  if (!activePreviewPicks.length) return;
+  activePreviewIndex = (index + activePreviewPicks.length) % activePreviewPicks.length;
+  const pick = activePreviewPicks[activePreviewIndex];
+  document.querySelector('#player-art').src = pick.artwork || '';
+  document.querySelector('#player-art').hidden = !pick.artwork;
+  document.querySelector('#player-title').textContent = pick.song;
+  document.querySelector('#player-artist').textContent = pick.artist;
+  document.querySelector('#player-link').href = pick.catalogUrl;
+  const playButton = document.querySelector('#player-toggle');
+  if (!pick.preview) {
+    previewAudio.pause(); previewAudio.removeAttribute('src');
+    playButton.disabled = true; playButton.textContent = '—';
+    document.querySelector('#player-status').textContent = 'Sin fragmento · abre en Apple Music';
+    return;
+  }
+  playButton.disabled = false; playButton.textContent = '▶';
+  document.querySelector('#player-status').textContent = 'VISTA PREVIA · 30 S';
+  previewAudio.src = pick.preview; previewAudio.currentTime = 0;
+  if (autoplay) previewAudio.play().then(() => { playButton.textContent = 'Ⅱ'; }).catch(() => {});
+}
+
+document.querySelector('#player-toggle').addEventListener('click', async () => {
+  const pick = activePreviewPicks[activePreviewIndex];
+  if (!pick?.preview) return;
+  if (previewAudio.paused) {
+    try { await previewAudio.play(); document.querySelector('#player-toggle').textContent = 'Ⅱ'; }
+    catch { document.querySelector('#player-status').textContent = 'No se pudo reproducir el fragmento'; }
+  } else { previewAudio.pause(); document.querySelector('#player-toggle').textContent = '▶'; }
+});
+document.querySelector('#player-prev').addEventListener('click', () => selectPreview(activePreviewIndex - 1));
+document.querySelector('#player-next').addEventListener('click', () => selectPreview(activePreviewIndex + 1));
+document.querySelector('#track-recommendations').addEventListener('click', event => {
+  const button = event.target.closest('[data-preview-index]');
+  if (button && !button.disabled) selectPreview(Number(button.dataset.previewIndex));
+});
+previewAudio.addEventListener('ended', () => selectPreview(activePreviewIndex + 1));
+previewAudio.addEventListener('timeupdate', () => {
+  const progress = previewAudio.duration ? previewAudio.currentTime / previewAudio.duration * 100 : 0;
+  document.querySelector('#player-progress').style.width = `${progress}%`;
+});
 
 async function showRecommendations() {
   const artists = document.querySelector('#artists').value.split(',').map(value => value.trim()).filter(Boolean).slice(0, 3);
@@ -98,9 +214,11 @@ async function showRecommendations() {
   nextButton.textContent = 'BUSCANDO TU PRÓXIMO LOOP…';
   error.textContent = '';
   try {
-    loop.picks = window.UnloopSpotify?.isConnected()
-      ? await window.UnloopSpotify.getSurveyRecommendations(loop)
-      : await getCatalogRecommendations(loop);
+    const catalog = await getCatalogRecommendations(loop);
+    loop.picks = catalog.picks;
+    loop.albums = catalog.albums;
+    loop.recommendedArtists = catalog.artists;
+    loop.artistSeeds = catalog.artistSeeds.map(item => item.artistName);
   } catch (cause) {
     error.textContent = cause.message || 'No hemos podido encontrar canciones ahora. Inténtalo otra vez.';
     return;
@@ -109,12 +227,15 @@ async function showRecommendations() {
     nextButton.innerHTML = originalLabel;
   }
   window.unloopPending = loop;
-  const artistsText = artists.length ? escapeHtml(artists.join(', ')) : 'Tus respuestas';
+  const artistsText = artists.length ? escapeHtml(artists.join(', ')) : 'tus respuestas';
   const moodText = moods.length ? moods.join(' · ') : 'Curiosidad';
-  const picks = loop.picks.map((pick, index) => `<a class="recommendation" href="${escapeHtml(pick.spotifyUrl || pick.catalogUrl || '#')}" target="_blank" rel="noopener noreferrer"><span class="pick-index">0${index + 1}</span>${pick.artwork ? `<img class="recommendation-art" src="${escapeHtml(pick.artwork)}" alt="" loading="lazy">` : ''}<span class="recommendation-copy"><strong>${escapeHtml(pick.artist)}</strong><small>${escapeHtml(pick.song)}</small></span><span class="pick-note">↗</span></a>`).join('');
   const languageText = languages.length ? languages.join(' · ') : 'Cualquier idioma';
-  const catalogLabel = window.UnloopSpotify?.isConnected() ? 'PISTAS DE SPOTIFY' : 'PISTAS DEL CATÁLOGO MUSICAL';
-  document.querySelector('#result-details').innerHTML = `<p class="result-summary">Partimos de <strong>${artistsText}</strong>, los sonidos <strong>${selectedGenres.join(', ')}</strong> y el mood <strong>${moodText}</strong>. Idiomas: <strong>${languageText}</strong>. Camino: <strong>${distance}</strong>.</p><p class="result-kicker">${catalogLabel} · ${selectedGenres.join(' / ').toUpperCase()}</p><div class="recommendation-list">${picks}</div>`;
+  document.querySelector('#result-details').innerHTML = `<p class="result-summary">Tu punto de partida: <strong>${artistsText}</strong> · <strong>${escapeHtml(selectedGenres.join(', '))}</strong> · <strong>${escapeHtml(moodText)}</strong> · <strong>${escapeHtml(languageText)}</strong> · <strong>${escapeHtml(distance)}</strong>.</p>`;
+  document.querySelector('#track-recommendations').innerHTML = renderSongCards(loop.picks);
+  document.querySelector('#album-recommendations').innerHTML = loop.albums.length ? renderMiniCards(loop.albums, 'ÁLBUM') : '<p class="catalog-empty">Prueba con otro estilo para encontrar más álbumes.</p>';
+  document.querySelector('#artist-recommendations').innerHTML = loop.recommendedArtists.length ? renderMiniCards(loop.recommendedArtists, 'ARTISTA') : '<p class="catalog-empty">Prueba con otro estilo para encontrar más artistas.</p>';
+  activePreviewPicks = loop.picks; selectPreview(0, false);
+  document.querySelector('#player-progress').style.width = '0%';
   form.hidden = true;
   results.hidden = false;
   progressFill.style.width = '100%';
