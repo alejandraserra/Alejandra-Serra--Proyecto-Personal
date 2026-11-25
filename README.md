@@ -34,3 +34,6 @@ La sección de novedades consulta los álbumes y singles publicados por artistas
 ## Desarrollo
 
 Spotify no acepta `file://` como origen de OAuth: hay que probar la conexión desde la dirección HTTPS que esté registrada en la aplicación de Spotify. La página funciona con HTML, CSS y JavaScript sin paquetes adicionales.
+
+
+Al completar la encuesta, UNLOOP propone canciones, álbumes y artistas del catálogo musical a partir de las respuestas y muestra portadas y fragmentos de audio cuando el catálogo los ofrece. Las recomendaciones se pueden abrir para escuchar; guardar las canciones en Spotify requiere conectar una cuenta y configurar el Client ID.
