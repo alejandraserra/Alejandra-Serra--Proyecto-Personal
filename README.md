@@ -1,6 +1,6 @@
 # UNLOOP
 
-La página abre con la pregunta de UNLOOP y una única caja azul: **Encuentra tu próximo loop**. Ese botón lleva directamente a la encuesta, que ocupa el segundo scroll. Después se presentan el origen del proyecto y los niveles de descubrimiento. El menú de pantalla completa sigue ese mismo orden con enlaces grandes y numerados.
+La página abre con la pregunta de UNLOOP y una única caja azul: **Encuentra tu próximo loop**. Ese botón lleva directamente a la encuesta, que ocupa el segundo scroll. Después aparecen tres rutas de descubrimiento, un Estudio visual para elegir una encuesta, una explicación en tres pasos y el origen del proyecto. El menú de pantalla completa sigue el recorrido con enlaces grandes y numerados.
 
 Landing page y encuesta musical para explorar nuevas canciones a partir de los gustos de cada persona.
 
@@ -39,3 +39,5 @@ Spotify no acepta `file://` como origen de OAuth: hay que probar la conexión de
 Al completar la encuesta, UNLOOP propone canciones, álbumes y artistas del catálogo musical a partir de las respuestas y muestra portadas y fragmentos de audio cuando el catálogo los ofrece. Las recomendaciones se pueden abrir para escuchar; guardar las canciones en Spotify requiere conectar una cuenta y configurar el Client ID.
 
 La interfaz incluye selector de idioma español/inglés y la encuesta principal avanza con Enter. En «Descubre a tu manera», Familiar Territory, Crossover y Out of Comfort abren mini encuestas independientes con nuevas recomendaciones, fragmentos disponibles y opción de guardarlas en Spotify.
+
+Las canciones se muestran como portadas en arco con una selección central activa y un reproductor de fragmentos justo debajo. En «Estudio UNLOOP», las cartas apiladas permiten elegir una ruta y abrir su encuesta; «Cómo funciona» presenta el recorrido en tres pasos.
