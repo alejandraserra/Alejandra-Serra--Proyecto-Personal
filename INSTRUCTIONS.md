@@ -77,3 +77,36 @@ NO SIRVE SI:
 - [El menú tapa su propia acción de cierre o dificulta llegar a una sección.]
 
 LO SABRÉ PORQUE: [Al abrir la página aparece la encuesta; al abrir el menú puedo identificar y llegar a cada sección con claridad.]
+
+## [25/11] · [Portada primero y acceso Spotify]
+
+QUIERO: [Mantener la pregunta de UNLOOP como primer scroll, usar una sola caja azul con el texto «Encuentra tu próximo loop» y llevar desde ella a la encuesta del segundo scroll. Quiero que el icono de Spotify del acceso sea claro y reconocible, y que Google, Apple y Spotify completen accesos reales.]
+
+SERÁ BUENO SI:
+- [La pregunta ocupa el primer scroll y mantiene sus cuatro líneas exactas.]
+- [El único botón azul lleva directamente a #encuesta y la encuesta aparece en el segundo scroll.]
+- [El menú sigue el orden Inicio, Encuesta, Nosotros, Descubre.]
+- [El botón de Spotify muestra el icono reconocible sobre un fondo donde contraste.]
+- [Los accesos OAuth muestran errores claros si faltan credenciales o el proveedor no está configurado.]
+- [LOG.md, CONTEXT.md y las fichas registran la nueva decisión sin borrar el historial previo.]
+
+NO SIRVE SI:
+- [La encuesta vuelve a ser la primera sección o el botón azul duplica el mensaje de marca.]
+- [La interfaz simula un acceso completado sin conectar el proveedor real.]
+
+LO SABRÉ PORQUE: [Puedo entrar a la página y ver primero la pregunta, abrir la encuesta con el botón azul y, al configurar los proveedores, acceder mediante Google, Apple o Spotify.]
+
+## [25/11] · [Corrección de orden e icono]
+
+QUIERO: [La pregunta de UNLOOP en el primer scroll, la encuesta como segundo scroll y un icono de Spotify nítido en la opción de conectar Spotify del inicio de sesión.]
+
+SERÁ BUENO SI:
+- [La secuencia en HTML, CSS, menú y fichas coincide: Inicio (01), Encuesta (02), Nosotros (03), Descubre (04), Mi espacio (05).]
+- [El botón azul único dice «Encuentra tu próximo loop» y enlaza a la encuesta.]
+- [El icono de Spotify se distingue bien del botón carbón y el texto sigue legible.]
+- [LOG.md conserva el historial y añade esta corrección al final.]
+
+NO SIRVE SI:
+- [Se afirma que Spotify, Google o Apple ya están conectados mientras falten sus credenciales o configuración externa.]
+
+LO SABRÉ PORQUE: [La primera pantalla muestra la pregunta; el botón abre la encuesta del siguiente scroll y el icono de Spotify se reconoce junto a las opciones de acceso.]
