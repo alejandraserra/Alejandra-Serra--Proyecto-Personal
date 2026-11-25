@@ -36,6 +36,21 @@ const comfortBreakers = {
   Electrónica: ['soul', 'indie'], 'Hip-hop': ['jazz', 'indie pop'], Rock: ['neo soul', 'electronic'],
   Jazz: ['hip hop', 'indie pop'], Sorpresa: ['latin alternative', 'neo soul']
 };
+function genreFamily(value = '') {
+  const genre = value.toLocaleLowerCase();
+  if (/hip.?hop|rap/.test(genre)) return 'hiphop';
+  if (/r.?&.?b|soul/.test(genre)) return 'rnb';
+  if (/ambient/.test(genre)) return 'ambient';
+  if (/electronic|electronica|dance|house|techno/.test(genre)) return 'electronic';
+  if (/jazz|blues/.test(genre)) return 'jazz';
+  if (/rock|punk|metal/.test(genre)) return 'rock';
+  if (/pop/.test(genre)) return 'pop';
+  if (/indie|alternative|folk|singer.?songwriter/.test(genre)) return 'indie';
+  if (/latin|world|reggaeton/.test(genre)) return 'latin';
+  if (/classical|orchestral/.test(genre)) return 'classical';
+  if (/country/.test(genre)) return 'country';
+  return '';
+}
 
 function searchMusicCatalog(params) {
   return new Promise((resolve, reject) => {
@@ -86,6 +101,10 @@ async function getCatalogRecommendations(loop) {
   }))).filter(Boolean);
   const chosen = loop.genres.length ? loop.genres : ['Sorpresa'];
   const artistGenres = artistSeeds.map(item => item.primaryGenreName).filter(Boolean);
+  const selectedFamilies = chosen.map(genre => genreFamily(genre) || genreFamily(catalogTerms[genre])).filter(Boolean);
+  const seedFamilies = artistGenres.map(genreFamily).filter(Boolean);
+  const adjacentFamilies = (relatedGenres[chosen[0]] || []).map(genreFamily).filter(Boolean);
+  const adventurousFamilies = (comfortBreakers[chosen[0]] || []).map(genreFamily).filter(Boolean);
   const baseGenres = [...new Set([
     ...chosen.slice(0, 2).map(genre => catalogTerms[genre] || genre.toLowerCase()),
     ...artistGenres.slice(0, 2).map(genre => genre.toLowerCase())
@@ -110,12 +129,29 @@ async function getCatalogRecommendations(loop) {
     requestGroup('song'), requestGroup('album'), requestGroup('musicArtist')
   ]);
   const unique = (items, key, limit) => [...new Map(items.filter(item => item[key]).map(item => [item[key], item])).values()].slice(0, limit);
-  const tracks = unique(trackResults.filter(item => item.trackName && item.artistName && item.trackViewUrl)
+  const allowedFamilies = new Set(loop.distance === 'Familiar Territory'
+    ? [...selectedFamilies, ...seedFamilies]
+    : loop.distance === 'Crossover'
+      ? [...selectedFamilies, ...seedFamilies, ...adjacentFamilies]
+      : adventurousFamilies);
+  const inChosenMusicWorld = item => {
+    const family = genreFamily(item.primaryGenreName || item.genreName);
+    return !family || allowedFamilies.has(family);
+  };
+  const relevance = item => {
+    const family = genreFamily(item.primaryGenreName || item.genreName);
+    if (family && selectedFamilies.includes(family)) return 3;
+    if (family && seedFamilies.includes(family)) return 2;
+    if (family && allowedFamilies.has(family)) return 1;
+    return 0;
+  };
+  const tracks = unique(trackResults.filter(item => item.trackName && item.artistName && item.trackViewUrl && inChosenMusicWorld(item))
     .filter(item => !favorites.has(item.artistName.toLocaleLowerCase()))
-    .filter(item => !/karaoke|tribute|cover version/i.test(item.trackName)), 'trackId', 12);
-  const albums = unique(albumResults.filter(item => item.collectionName && item.artistName && item.collectionViewUrl)
+    .filter(item => !/karaoke|tribute|cover version/i.test(item.trackName))
+    .sort((a, b) => relevance(b) - relevance(a)), 'trackId', 12);
+  const albums = unique(albumResults.filter(item => item.collectionName && item.artistName && item.collectionViewUrl && inChosenMusicWorld(item))
     .filter(item => !favorites.has(item.artistName.toLocaleLowerCase())), 'collectionId', 8);
-  const recommendedArtists = unique(artistResults.filter(item => item.artistName && item.artistLinkUrl)
+  const recommendedArtists = unique(artistResults.filter(item => item.artistName && item.artistLinkUrl && inChosenMusicWorld(item))
     .filter(item => !favorites.has(item.artistName.toLocaleLowerCase())), 'artistId', 8);
   const artworkForArtist = new Map(albums.map(album => [album.artistName.toLocaleLowerCase(), album.artworkUrl100]));
   const picks = tracks.slice(0, 8).map(track => ({
