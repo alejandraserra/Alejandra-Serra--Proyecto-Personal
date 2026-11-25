@@ -122,7 +122,8 @@ async function getCatalogRecommendations(loop) {
   const languages = [...new Set(loop.languages.map(value => languageTerms[value]).filter(Boolean))].slice(0, 2);
   const suffix = [...mood, ...languages].join(' ');
   const songSearchTerms = discoveryGenres.slice(0, 3).map(genre => [genre, suffix].filter(Boolean).join(' '));
-  const albumSearchTerms = discoveryGenres.slice(0, 2);
+  const albumLanguage = [...new Set(loop.languages.map(value => languageTerms[value]).filter(Boolean))].slice(0, 2);
+  const albumSearchTerms = discoveryGenres.slice(0, 2).map(genre => [genre, ...albumLanguage].join(' '));
   const requestGroup = async (entity, terms) => (await Promise.all(terms.map(async term => {
     try { return await searchCatalogEntity(term, entity, 25); } catch { return []; }
   }))).flat();
@@ -152,6 +153,7 @@ async function getCatalogRecommendations(loop) {
     .sort((a, b) => relevance(b) - relevance(a)), 'trackId', 12);
   const albums = unique(albumResults.filter(item => item.collectionName && item.artistName && item.collectionViewUrl && inChosenMusicWorld(item))
     .filter(item => !/\bsingle\b|work music|office|energetic|music for dogs|various artists|songs from and inspired by|karaoke|tribute/i.test(item.collectionName))
+    .filter(item => !/various artists|varios artistas|compilation/i.test(item.artistName))
     .filter(item => !favorites.has(item.artistName.toLocaleLowerCase())), 'collectionId', 8);
   const recommendedArtists = unique([
     ...tracks.map(item => ({
