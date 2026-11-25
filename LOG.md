@@ -121,3 +121,7 @@ Aprendido: [Cada tipo de recomendación necesita sus propios filtros: mood e idi
 ## [25/11] · [Idioma y álbumes]
 Criterio: [Aplicar la preferencia de idioma también a la búsqueda de álbumes y evitar compilaciones sin un artista recomendado concreto. ✅]
 Aprendido: [La encuesta lleva idioma a la consulta de canciones y álbumes; además, excluye singles y recopilaciones en la sección de álbumes para reservarla a discos que se puedan explorar como álbumes.] 
+
+## [25/11] · [Cierre visible del resultado]
+Criterio: [Al terminar la encuesta, mostrar el comienzo de las recomendaciones con el titular entero, y respetar mejor el mercado correspondiente al idioma seleccionado. ✅]
+Aprendido: [La búsqueda en catálogo usa la tienda de EE. UU. si se elige únicamente inglés y la española para las demás combinaciones; el resultado se desplaza hasta su título y las miniaturas usan la URL de portada original del catálogo.] 
