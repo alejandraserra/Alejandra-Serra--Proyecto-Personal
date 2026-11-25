@@ -80,3 +80,7 @@ Aprendido: [las secciones de scroll se identifican en el HTML; los estilos está
 ## [23/11] · [Espaciado de portada]
 Criterio: [presentar la pregunta en cuatro líneas exactas y separar visualmente el titular, el botón y la onda. ✅]
 Aprendido: [fijar cada línea y reservar espacio vertical evita que el contenido se amontone o se cruce en distintas pantallas.]
+
+## [25/11] · [Fichas del loop]
+Criterio: [crear una ficha por cada sección de scroll trabajada, con las decisiones de Alejandra y Codex y quién verifica el resultado. ✅]
+Aprendido: [las fichas documentan el alcance de las decisiones de Codex y dejan la validación visual y de contenido en manos de Alejandra; Codex comprueba comportamiento y publicación.]
